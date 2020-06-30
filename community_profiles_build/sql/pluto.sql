@@ -1,4 +1,56 @@
-CREATE TABLE cp_landuse_count as (
+/*
+DESCRIPTION:
+    Creates summary statistics for land uses by community district using PLUTO.
+
+INPUTS:
+dcp_pluto (
+    cd,
+    landuse,
+    lotarea
+)
+
+OUTPUTS:
+    lots_res_1_2_family_bldg,
+    lots_res_multifamily_walkup,
+    lots_res_multifamily_elevator,
+    lots_mixed_use,
+    lots_commercial_office,
+    lots_industrial_manufacturing,
+    lots_transportation_utility,
+    lots_public_facility_institution,
+    lots_open_space,
+    lots_parking,
+    lots_vacant,
+    lots_other_no_data,
+    lots_total,
+    lot_area___res_1_2_family_bldg,
+    pct_lot_area___res_1_2_family_bldg,
+    lot_area___res_multifamily_walkup,
+    pct_lot_area___res_multifamily_walkup,
+    lot_area___res_multifamily_elevator,
+    pct_lot_area___res_multifamily_elevator,
+    lot_area___mixed_use,
+    pct_lot_area___mixed_use,
+    lot_area___commercial_office,
+    pct_lot_area___commercial_office,
+    lot_area___industrial_manufacturing,
+    pct_lot_area___industrial_manufacturing,
+    lot_area___transportation_utility,
+    pct_lot_area___transportation_utility,
+    lot_area___public_facility_institution,
+    pct_lot_area___public_facility_institution,
+    lot_area___open_space,
+    pct_lot_area___open_space,
+    lot_area___parking,
+    pct_lot_area___parking,
+    lot_area___vacant,
+    pct_lot_area___vacant,
+    lot_area___other_no_data,
+    pct_lot_area___other_no_data,
+    total_lot_area
+*/
+DROP TABLE IF EXISTS PLUTO_landusecount_commpro;
+CREATE TABLE PLUTO_landusecount_commpro as (
 SELECT   
 cd,
 COUNT(*) FILTER (WHERE landuse='01') AS "lots_res_1_2_family_bldg",
@@ -14,13 +66,14 @@ COUNT(*) FILTER (WHERE landuse='10') AS "lots_parking",
 COUNT(*) FILTER (WHERE landuse='11') AS "lots_vacant",
 COUNT(*) FILTER (WHERE landuse IS NULL) AS "lots_other_no_data",
 COUNT(*) AS "lots_total"
-FROM dcp_pluto."20v4"
+FROM dcp_pluto
 GROUP BY cd);
 
-CREATE TABLE cp_landuse_area as (
+DROP TABLE IF EXISTS PLUTO_landusearea_commpro;
+CREATE TABLE PLUTO_landusearea_commpro as (
 WITH sumareas as (
 SELECT cd, SUM(lotarea) AS totallotarea
-FROM dcp_pluto."20v4"
+FROM dcp_pluto
 GROUP BY cd),
 landusesums as (
 SELECT   
