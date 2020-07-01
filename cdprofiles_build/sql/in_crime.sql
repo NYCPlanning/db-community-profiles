@@ -6,6 +6,7 @@ CREATE TEMP TABLE crimes (
 
 \COPY crimes FROM PSTDIN DELIMITER ',' CSV HEADER;
 
+-- Spatial aggregation
 DROP TABLE IF EXISTS nypd_major_felonies;
 WITH 
 crimes_geom as (
