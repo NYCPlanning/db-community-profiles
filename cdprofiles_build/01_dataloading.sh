@@ -4,12 +4,18 @@ source config.sh
 docker run --rm\
     -v $(pwd):/src\
     -w /src/python\
-    -e API_TOKEN=$API_TOKEN\
     -e RECIPE_ENGINE=$RECIPE_ENGINE\
     -e BUILD_ENGINE=$BUILD_ENGINE\
     nycplanning/cook:latest bash -c "
-        python3 dataloading.py
-        python3 out_crime.py" | 
+        python3 dataloading.py"
+
+docker run --rm\
+    -v $(pwd):/src\
+    -w /src/python\
+    -e API_TOKEN=$API_TOKEN\
+    -e BUILD_ENGINE=$BUILD_ENGINE\
+    nycplanning/cook:latest bash -c "
+        python3 out_crime.py" |  
     psql $BUILD_ENGINE -f sql/in_crime.sql
 
 psql -q $EDM_DATA -f sql/out_facilities.sql | 
