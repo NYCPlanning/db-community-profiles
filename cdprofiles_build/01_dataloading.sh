@@ -20,6 +20,15 @@ docker run --rm\
         python3 out_crime.py" |  
     psql $BUILD_ENGINE -f sql/in_crime.sql
 
+psql $BUILD_ENGINE -c "
+    DROP TABLE IF EXISTS cd_puma;
+    CREATE TABLE cd_puma (
+        borocd text,
+        puma text
+    ); 
+"
+imports_csv cd_puma
+
 display "loading FacDB data"
 psql -q $EDM_DATA -v VERSION=$V_FACDB -f sql/out_facilities.sql | 
     psql $BUILD_ENGINE -f sql/in_facilities.sql &
@@ -35,8 +44,8 @@ psql -q $EDM_DATA -v VERSION=$V_PLUTO -f sql/out_floodplain.sql |
     psql $BUILD_ENGINE -f sql/in_floodplain.sql &
 
 display "loading ACS data"
-psql -q $EDM_DATA -v VERSION=$V_ACS -f sql/out_census.sql |
-    psql $BUILD_ENGINE -f sql/in_census.sql & 
+psql -q $EDM_DATA -v VERSION=$V_ACS -f sql/out_acs.sql |
+    psql $BUILD_ENGINE -f sql/in_acs.sql & 
 
 wait
 display "complete"

@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS acs;
-CREATE TABLE acs (
+DROP TABLE IF EXISTS _acs;
+CREATE TABLE _acs (
     puma text,
     boro text,
     female_50_54 double precision,
@@ -89,4 +89,13 @@ CREATE TABLE acs (
     pct_bach_deg double precision
 );
 
-\COPY acs FROM PSTDIN DELIMITER ',' CSV HEADER;
+\COPY _acs FROM PSTDIN DELIMITER ',' CSV HEADER;
+
+DROP TABLE IF EXISTS acs;
+SELECT
+    a.borocd,
+    b.*
+INTO acs
+FROM cd_puma a 
+LEFT JOIN _acs b
+ON a.puma = b.puma;
