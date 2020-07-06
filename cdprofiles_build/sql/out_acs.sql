@@ -97,7 +97,7 @@ CREATE TEMP TABLE acs as (
         (SELECT p FROM econ WHERE variable = 'CvLFUEm1' and geotype='City2010') as unemployment_nyc,
         (SELECT z FROM econ WHERE variable = 'CvLFUEm1' and geotype='Boro2010' and geoid=a.boro) as moe_unemployment_boro,
         (SELECT p FROM econ WHERE variable = 'CvLFUEm1' and geotype='Boro2010' and geoid=a.boro) as unemployment_boro,
-        (SELECT m FROM econ WHERE variable = 'CvLFUEm1Z' and geotype='PUMA2010' and geoid=a.puma) as moe_unemployment,
+        (SELECT z FROM econ WHERE variable = 'CvLFUEm1' and geotype='PUMA2010' and geoid=a.puma) as moe_unemployment,
         (SELECT p FROM econ WHERE variable = 'CvLFUEm1' and geotype='PUMA2010' and geoid=a.puma) as unemployment,
         (SELECT z FROM soci WHERE variable = 'EA_BchDH' and geotype='City2010') as moe_bach_deg_nyc,
         (SELECT p FROM soci WHERE variable = 'EA_BchDH' and geotype='City2010') as pct_bach_deg_nyc,
