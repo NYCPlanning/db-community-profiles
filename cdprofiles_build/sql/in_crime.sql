@@ -1,8 +1,40 @@
 DROP TABLE IF EXISTS _nypd_major_felonies;
 CREATE TABLE _nypd_major_felonies (
     cmplnt_num text,
+    cmplnt_fr_dt text,
+    cmplnt_fr_tm text,
+    cmplnt_to_dt text,
+    cmplnt_to_tm text,
+    addr_pct_cd text,
+    rpt_dt text,
+    ky_cd text,
+    ofns_desc text,
+    pd_cd text,
+    pd_desc text,
+    crm_atpt_cptd_cd text,
+    law_cat_cd text,
+    boro_nm text,
+    loc_of_occur_desc text,
+    prem_typ_desc text,
+    juris_desc text,
+    jurisdiction_code text,
+    parks_nm text,
+    hadevelopt text,
+    housing_psa text,
+    x_coord_cd text,
+    y_coord_cd text,
+    susp_age_group text,
+    susp_race text,
+    susp_sex text,
+    transit_district text,
     latitude double precision, 
-    longitude double precision
+    longitude double precision,
+    lat_lon text,
+    patrol_boro text,
+    station_name text,
+    vic_age_group text,
+    vic_race text,
+    vic_sex text
 ); 
 
 \COPY _nypd_major_felonies FROM PSTDIN DELIMITER ',' CSV HEADER;

@@ -2,7 +2,7 @@ CREATE TEMP TABLE PLUTO_landusearea_commpro as (
     WITH 
     sumareas as (
         SELECT cd, SUM(lotarea) AS totallotarea
-        FROM dcp_pluto."20v4"
+        FROM dcp_pluto.:"VERSION"
         GROUP BY cd
     ),
     landusesums as (
@@ -21,7 +21,7 @@ CREATE TEMP TABLE PLUTO_landusearea_commpro as (
             SUM(lotarea) FILTER (WHERE landuse='11') AS "lot_area___vacant",
             SUM(lotarea) FILTER (WHERE landuse IS NULL) AS "lot_area___other_no_data",
             SUM(lotarea) AS "total_lot_area"
-        FROM dcp_pluto."20v4"  
+        FROM dcp_pluto.:"VERSION"  
         GROUP BY cd
     )
     SELECT 

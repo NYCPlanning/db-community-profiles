@@ -6,7 +6,7 @@ CREATE TEMP TABLE FLOODPLAIN as (
         sum(CASE WHEN firm07_flag = '1' OR pfirm15_flag = '1' THEN unitsres ELSE 0 END) as fp_100_resunits,
         sum(unitsres) as cd_tot_resunits,
         sum(CASE WHEN (firm07_flag = '1' OR pfirm15_flag = '1') AND landuse = '09' THEN lotarea ELSE 0 END) as fp_100_openspace
-    FROM dcp_pluto."20v4" a
+    FROM dcp_pluto.:"VERSION" a
     GROUP BY cd
     ORDER BY cd
 );
