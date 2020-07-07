@@ -7,7 +7,6 @@ CREATE TABLE _acs (
     moe_under18_rate_boro double precision,
     pop_acs double precision,
     pct_hispanic double precision,
-    pct_other_nh double precision,
     pct_asian_nh double precision,
     pct_black_nh double precision,
     pct_white_nh double precision,
@@ -95,7 +94,16 @@ CREATE TABLE _acs (
 DROP TABLE IF EXISTS acs;
 SELECT
     a.borocd,
-    b.*
+    b.*,
+    round(
+        (100 - (
+            b.pct_hispanic+
+            b.pct_asian_nh+
+            b.pct_black_nh+
+            b.pct_white_nh)
+        )::numeric, 
+        2
+    ) as pct_other_nh
 INTO acs
 FROM cd_puma a 
 LEFT JOIN _acs b

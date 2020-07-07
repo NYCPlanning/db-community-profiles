@@ -24,7 +24,6 @@ CREATE TEMP TABLE acs as (
         (SELECT z FROM demo WHERE variable = 'PopU181' and geotype='Boro2010' and geoid=a.boro) as moe_under18_rate_boro,
         (SELECT e FROM demo WHERE variable = 'Pop_1' and geotype='PUMA2010' and geoid=a.puma) as pop_acs,
         (SELECT p FROM demo WHERE variable = 'Hsp1' and geotype='PUMA2010' and geoid=a.puma) as pct_hispanic,
-        (SELECT p FROM demo WHERE variable = 'OthNH' and geotype='PUMA2010' and geoid=a.puma) as pct_other_nh,
         (SELECT p FROM demo WHERE variable = 'AsnNH' and geotype='PUMA2010' and geoid=a.puma) as pct_asian_nh,
         (SELECT p FROM demo WHERE variable = 'BlNH' and geotype='PUMA2010' and geoid=a.puma) as pct_black_nh,
         (SELECT p FROM demo WHERE variable = 'WtNH' and geotype='PUMA2010' and geoid=a.puma) as pct_white_nh,
