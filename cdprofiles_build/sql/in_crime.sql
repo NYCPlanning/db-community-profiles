@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS _nypd_major_felonies;
-CREATE TABLE _nypd_major_felonies (
+DROP TABLE IF EXISTS _crime;
+CREATE TABLE _crime (
     cmplnt_num text,
     cmplnt_fr_dt text,
     cmplnt_fr_tm text,
@@ -37,15 +37,15 @@ CREATE TABLE _nypd_major_felonies (
     vic_sex text
 ); 
 
-\COPY _nypd_major_felonies FROM PSTDIN DELIMITER ',' CSV HEADER;
+\COPY _crime FROM PSTDIN DELIMITER ',' CSV HEADER;
 
 -- Spatial aggregation
-DROP TABLE IF EXISTS nypd_major_felonies;
+DROP TABLE IF EXISTS crime;
 WITH 
 crimes_geom as (
 SELECT 
     ST_SetSRID(ST_MakePoint(longitude,latitude),4326) as geom
-FROM _nypd_major_felonies
+FROM _crime
 ), 
 crimes_borocd as (
 SELECT 
@@ -74,7 +74,7 @@ SELECT
     a.crime_count,
     b.crime_count_boro,
     (select count(*) from crimes_geom) as crime_count_nyc
-INTO nypd_major_felonies
+INTO crime
 FROM CD_counts a
 LEFT JOIN BORO_counts b
 ON a.boro = b.boro;

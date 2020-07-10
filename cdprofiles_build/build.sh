@@ -31,8 +31,8 @@ psql $BUILD_ENGINE -c "
 imports_csv cd_puma
 
 display "loading FacDB data"
-psql -q $EDM_DATA -v VERSION=$V_FACDB -f sql/out_facilities.sql | 
-    psql $BUILD_ENGINE -f sql/in_facilities.sql &
+psql -q $EDM_DATA -v VERSION=$V_FACDB -f sql/out_facdb.sql | 
+    psql $BUILD_ENGINE -f sql/in_facdb.sql &
 
 display "loading PLUTO data"
 psql -q $EDM_DATA -v VERSION=$V_PLUTO -f sql/out_pluto_landusecount.sql | 
@@ -50,4 +50,4 @@ psql -q $EDM_DATA -v VERSION=$V_ACS -f sql/out_acs.sql |
 
 wait
 display "combine all"
-psql -f sql/combine.sql
+psql $BUILD_ENGINE -f sql/combine.sql

@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS combined;
 WITH
 JOIN_ACS AS (
 	SELECT
@@ -100,7 +101,7 @@ JOIN_CRIME AS (
         b.crime_count_boro,
         b.crime_count_nyc
     FROM JOIN_ACS a
-    LEFT JOIN nypd_major_felonies b
+    LEFT JOIN crime b
     ON a.borocd = b.borocd
 ),
 JOIN_pluto_landusearea AS (
@@ -179,4 +180,6 @@ JOIN_floodplain as (
     LEFT JOIN floodplain b
     ON a.borocd = b.borocd
 )
-SELECT * FROM JOIN_floodplain;
+SELECT * 
+INTO combined
+FROM JOIN_floodplain;
