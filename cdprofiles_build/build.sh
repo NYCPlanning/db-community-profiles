@@ -1,20 +1,21 @@
 #!/bin/bash
 source config.sh
 
-display "loading CD boundaries"
-docker run --rm\
-    -v $(pwd):/src\
-    -w /src/python\
-    -e RECIPE_ENGINE=$RECIPE_ENGINE\
-    -e BUILD_ENGINE=$BUILD_ENGINE\
-    nycplanning/cook:latest bash -c "
-        python3 dataloading.py"
+# display "loading CD boundaries"
+# docker run --rm\
+#     -v $(pwd):/src\
+#     -w /src/python\
+#     -e RECIPE_ENGINE=$RECIPE_ENGINE\
+#     -e BUILD_ENGINE=$BUILD_ENGINE\
+#     nycplanning/cook:latest bash -c "
+#         python3 dataloading.py"
 
 display "loading crime data"
 docker run --rm\
     -v $(pwd):/src\
     -w /src/python\
     -e API_TOKEN=$API_TOKEN\
+    -e V_CRIME=$V_CRIME\
     -e BUILD_ENGINE=$BUILD_ENGINE\
     nycplanning/cook:latest bash -c "
         python3 out_crime.py" |  
@@ -48,4 +49,5 @@ psql -q $EDM_DATA -v VERSION=$V_ACS -f sql/out_acs.sql |
     psql $BUILD_ENGINE -f sql/in_acs.sql & 
 
 wait
-display "complete"
+display "combine all"
+psql -f sql/combine.sql

@@ -4,9 +4,10 @@ import sys
 
 url='https://data.cityofnewyork.us/resource/qgea-i56i.csv'
 headers = {'X-App-Token':os.environ['API_TOKEN']}
+year = os.environ['V_CRIME']
 params = {
             '$select':'*', 
-            '$where':f'date_extract_y(cmplnt_fr_dt)=2016 and ky_cd in (101,104,105,106,107,109,110)',
+            '$where':f'date_extract_y(cmplnt_fr_dt)={year} and ky_cd in (101,104,105,106,107,109,110)',
             '$limit':500000
         }
 
