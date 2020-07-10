@@ -1,14 +1,14 @@
 #!/bin/bash
 source config.sh
 
-# display "loading CD boundaries"
-# docker run --rm\
-#     -v $(pwd):/src\
-#     -w /src/python\
-#     -e RECIPE_ENGINE=$RECIPE_ENGINE\
-#     -e BUILD_ENGINE=$BUILD_ENGINE\
-#     nycplanning/cook:latest bash -c "
-#         python3 dataloading.py"
+display "loading CD boundaries"
+docker run --rm\
+    -v $(pwd):/src\
+    -w /src/python\
+    -e RECIPE_ENGINE=$RECIPE_ENGINE\
+    -e BUILD_ENGINE=$BUILD_ENGINE\
+    nycplanning/cook:latest bash -c "
+        python3 dataloading.py"
 
 display "loading crime data"
 docker run --rm\
