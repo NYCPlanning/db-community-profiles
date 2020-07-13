@@ -12,7 +12,7 @@ jobs:
     env:
       RECIPE_ENGINE: ${{ secrets.RECIPE_ENGINE }}
       EDM_DATA: ${{ secrets.EDM_DATA }}
-      BUILD_ENGINE: postgresql://postgres:postgres@localhost:5432/postgres
+      API_TOKEN: ${{ secrets.API_TOKEN }}
 
     services:
       postgres:
@@ -47,7 +47,9 @@ jobs:
         
     - name: Run Build
       working-directory: cdprofiles_build
-      run: ./build.sh
+      run: |
+        export BUILD_ENGINE=postgresql://postgres:postgres@localhost:5432/postgres
+        ./build.sh
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
