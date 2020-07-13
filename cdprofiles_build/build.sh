@@ -50,4 +50,9 @@ psql -q $EDM_DATA -v VERSION=$V_ACS -f sql/out_acs.sql |
 
 wait
 display "combine all"
-psql $BUILD_ENGINE -f sql/combine.sql
+psql -q $BUILD_ENGINE\
+    -v V_PLUTO=$V_PLUTO\
+    -v V_ACS=$V_ACS\
+    -v V_FACDB=$V_FACDB\
+    -v V_CRIME=$V_CRIME\
+    -f sql/combine.sql > output/cd_profiles.csv
