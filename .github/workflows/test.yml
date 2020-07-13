@@ -9,6 +9,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    if: contains(github, '[test]')
     env:
       RECIPE_ENGINE: ${{ secrets.RECIPE_ENGINE }}
       EDM_DATA: ${{ secrets.EDM_DATA }}
