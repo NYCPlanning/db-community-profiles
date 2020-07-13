@@ -1,0 +1,57 @@
+name: Building Community Profiles
+
+on:
+  push:
+    branches: [ master ]
+    paths-ignore:
+      - '**.md'
+      - '**.csv'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      RECIPE_ENGINE: ${{ secrets.RECIPE_ENGINE }}
+      EDM_DATA: ${{ secrets.EDM_DATA }}
+      BUILD_ENGINE: postgresql://postgres:postgres@localhost:5432/postgres
+
+    services:
+      postgres:
+        image: postgis/postgis:11-3.0-alpine
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y curl
+        sudo tee /etc/apt/sources.list.d/pgdg.list <<END
+        deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main
+        END
+
+        # get the signing key and import it
+        curl -O https://www.postgresql.org/media/keys/ACCC4CF8.asc
+        sudo apt-key add ACCC4CF8.asc
+        sudo apt update
+        sudo apt install -y postgresql-client-11
+        sudo apt autoremove
+        rm ACCC4CF8.asc
+        
+    - name: Run Build
+      working-directory: cdprofiles_build
+      run: ./build.sh
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: output
+        path: output/cd_profiles.csv
+
