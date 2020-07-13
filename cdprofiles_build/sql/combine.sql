@@ -175,11 +175,20 @@ JOIN_floodplain as (
         b.cd_tot_bldgs,
         b.fp_100_resunits,
         b.cd_tot_resunits,
-        b.fp_100_openspace
+        b.fp_100_openspace,
+        b.fp_500_area,
+        b.fp_500_openspace
     FROM JOIN_facdb a
     LEFT JOIN floodplain b
     ON a.borocd = b.borocd
 )
-SELECT * 
+SELECT 
+    *,
+    :'V_PLUTO' as v_pluto,
+    :'V_ACS' as v_facdb,
+    :'V_FACDB' as v_acs,
+    :'V_CRIME' as v_crime
 INTO combined
 FROM JOIN_floodplain;
+
+\COPY combined TO PSTDOUT DELIMITER ',' CSV HEADER;
