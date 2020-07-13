@@ -21,7 +21,7 @@ CREATE TEMP TABLE acs as (
         a.boro,
         (SELECT e FROM demo WHERE variable = 'FPop50t54' and geotype='PUMA2010' and geoid=a.puma) as female_50_54,
         (SELECT z FROM demo WHERE variable = 'PopU181' and geotype='City2010') as moe_under18_rate_nyc,
-        (SELECT z FROM demo WHERE variable = 'PopU181' and geotype='Boro2010' and geoid=a.boro) as moe_under18_rate_boro,
+        (SELECT z FROM demo WHERE variable = 'PopU181' and geotype='Boro2010' and geoid=a.borocode) as moe_under18_rate_boro,
         (SELECT e FROM demo WHERE variable = 'Pop_1' and geotype='PUMA2010' and geoid=a.puma) as pop_acs,
         (SELECT p FROM demo WHERE variable = 'Hsp1' and geotype='PUMA2010' and geoid=a.puma) as pct_hispanic,
         (SELECT p FROM demo WHERE variable = 'AsnNH' and geotype='PUMA2010' and geoid=a.puma) as pct_asian_nh,
@@ -64,44 +64,44 @@ CREATE TEMP TABLE acs as (
         (SELECT p FROM demo WHERE variable = 'MPop0t5' and geotype='PUMA2010' and geoid=a.puma) as male_under_5,
         (SELECT z FROM demo WHERE variable = 'Pop65pl1' and geotype='City2010') as moe_over65_rate_nyc,
         (SELECT p FROM demo WHERE variable = 'Pop65pl1' and geotype='City2010') as over65_rate_nyc,
-        (SELECT z FROM demo WHERE variable = 'Pop65pl1' and geotype='Boro2010' and geoid=a.boro) as moe_over65_rate_boro,
-        (SELECT p FROM demo WHERE variable = 'Pop65pl1' and geotype='Boro2010' and geoid=a.boro) as over65_rate_boro,
+        (SELECT z FROM demo WHERE variable = 'Pop65pl1' and geotype='Boro2010' and geoid=a.borocode) as moe_over65_rate_boro,
+        (SELECT p FROM demo WHERE variable = 'Pop65pl1' and geotype='Boro2010' and geoid=a.borocode) as over65_rate_boro,
         (SELECT z FROM demo WHERE variable = 'Pop65pl1' and geotype='PUMA2010' and geoid=a.puma) as moe_over65_rate,
         (SELECT p FROM demo WHERE variable = 'Pop65pl1' and geotype='PUMA2010' and geoid=a.puma) as over65_rate,
         (SELECT p FROM demo WHERE variable = 'PopU181' and geotype='City2010') as under18_rate_nyc,
-        (SELECT p FROM demo WHERE variable = 'PopU181' and geotype='Boro2010' and geoid=a.boro) as under18_rate_boro,
+        (SELECT p FROM demo WHERE variable = 'PopU181' and geotype='Boro2010' and geoid=a.borocode) as under18_rate_boro,
         (SELECT z FROM demo WHERE variable = 'PopU181' and geotype='PUMA2010' and geoid=a.puma) as moe_under18_rate,
         (SELECT p FROM demo WHERE variable = 'PopU181' and geotype='PUMA2010' and geoid=a.puma) as under18_rate,
         (SELECT z FROM soci WHERE variable = 'LgOEnLEP1' and geotype='City2010') as moe_lep_rate_nyc,
         (SELECT p FROM soci WHERE variable = 'LgOEnLEP1' and geotype='City2010') as lep_rate_nyc,
-        (SELECT z FROM soci WHERE variable = 'LgOEnLEP1' and geotype='Boro2010' and geoid=a.boro) as moe_lep_rate_boro,
-        (SELECT p FROM soci WHERE variable = 'LgOEnLEP1' and geotype='Boro2010' and geoid=a.boro) as lep_rate_boro,
-        (SELECT z FROM demo WHERE variable = 'LgOEnLEP1' and geotype='PUMA2010' and geoid=a.puma) as moe_lep_rate,
-        (SELECT p FROM demo WHERE variable = 'LgOEnLEP1' and geotype='PUMA2010' and geoid=a.puma) as lep_rate,
-        (SELECT z FROM demo WHERE variable = 'Fb1' and geotype='PUMA2010' and geoid=a.puma) as moe_foreign_born,
-        (SELECT p FROM demo WHERE variable = 'Fb1' and geotype='PUMA2010' and geoid=a.puma) as pct_foreign_born,
+        (SELECT z FROM soci WHERE variable = 'LgOEnLEP1' and geotype='Boro2010' and geoid=a.borocode) as moe_lep_rate_boro,
+        (SELECT p FROM soci WHERE variable = 'LgOEnLEP1' and geotype='Boro2010' and geoid=a.borocode) as lep_rate_boro,
+        (SELECT z FROM soci WHERE variable = 'LgOEnLEP1' and geotype='PUMA2010' and geoid=a.puma) as moe_lep_rate,
+        (SELECT p FROM soci WHERE variable = 'LgOEnLEP1' and geotype='PUMA2010' and geoid=a.puma) as lep_rate,
+        (SELECT z FROM soci WHERE variable = 'Fb1' and geotype='PUMA2010' and geoid=a.puma) as moe_foreign_born,
+        (SELECT p FROM soci WHERE variable = 'Fb1' and geotype='PUMA2010' and geoid=a.puma) as pct_foreign_born,
         (SELECT z FROM hous WHERE variable = 'GRPI35pl' and geotype='City2010') as moe_hh_rent_burd_nyc,
         (SELECT p FROM hous WHERE variable = 'GRPI35pl' and geotype='City2010') as pct_hh_rent_burd_nyc,
-        (SELECT z FROM hous WHERE variable = 'GRPI35pl' and geotype='Boro2010' and geoid=a.boro) as moe_hh_rent_burd_boro,
-        (SELECT p FROM hous WHERE variable = 'GRPI35pl' and geotype='Boro2010' and geoid=a.boro) as pct_hh_rent_burd_boro,
+        (SELECT z FROM hous WHERE variable = 'GRPI35pl' and geotype='Boro2010' and geoid=a.borocode) as moe_hh_rent_burd_boro,
+        (SELECT p FROM hous WHERE variable = 'GRPI35pl' and geotype='Boro2010' and geoid=a.borocode) as pct_hh_rent_burd_boro,
         (SELECT z FROM hous WHERE variable = 'GRPI35pl' and geotype='PUMA2010' and geoid=a.puma) as moe_hh_rent_burd,
         (SELECT p FROM hous WHERE variable = 'GRPI35pl' and geotype='PUMA2010' and geoid=a.puma) as pct_hh_rent_burd,
         (SELECT m FROM econ WHERE variable = 'MnTrvTm' and geotype='City2010') as moe_mean_commute_nyc,
         (SELECT e FROM econ WHERE variable = 'MnTrvTm' and geotype='City2010') as mean_commute_nyc,
-        (SELECT m FROM econ WHERE variable = 'MnTrvTm' and geotype='Boro2010' and geoid=a.boro) as moe_mean_commute_boro,
-        (SELECT e FROM econ WHERE variable = 'MnTrvTm' and geotype='Boro2010' and geoid=a.boro) as mean_commute_boro,
+        (SELECT m FROM econ WHERE variable = 'MnTrvTm' and geotype='Boro2010' and geoid=a.borocode) as moe_mean_commute_boro,
+        (SELECT e FROM econ WHERE variable = 'MnTrvTm' and geotype='Boro2010' and geoid=a.borocode) as mean_commute_boro,
         (SELECT m FROM econ WHERE variable = 'MnTrvTm' and geotype='PUMA2010' and geoid=a.puma) as moe_mean_commute,
         (SELECT e FROM econ WHERE variable = 'MnTrvTm' and geotype='PUMA2010' and geoid=a.puma) as mean_commute,
         (SELECT z FROM econ WHERE variable = 'CvLFUEm1' and geotype='City2010') as moe_unemployment_nyc,
         (SELECT p FROM econ WHERE variable = 'CvLFUEm1' and geotype='City2010') as unemployment_nyc,
-        (SELECT z FROM econ WHERE variable = 'CvLFUEm1' and geotype='Boro2010' and geoid=a.boro) as moe_unemployment_boro,
-        (SELECT p FROM econ WHERE variable = 'CvLFUEm1' and geotype='Boro2010' and geoid=a.boro) as unemployment_boro,
+        (SELECT z FROM econ WHERE variable = 'CvLFUEm1' and geotype='Boro2010' and geoid=a.borocode) as moe_unemployment_boro,
+        (SELECT p FROM econ WHERE variable = 'CvLFUEm1' and geotype='Boro2010' and geoid=a.borocode) as unemployment_boro,
         (SELECT z FROM econ WHERE variable = 'CvLFUEm1' and geotype='PUMA2010' and geoid=a.puma) as moe_unemployment,
         (SELECT p FROM econ WHERE variable = 'CvLFUEm1' and geotype='PUMA2010' and geoid=a.puma) as unemployment,
         (SELECT z FROM soci WHERE variable = 'EA_BchDH' and geotype='City2010') as moe_bach_deg_nyc,
         (SELECT p FROM soci WHERE variable = 'EA_BchDH' and geotype='City2010') as pct_bach_deg_nyc,
-        (SELECT z FROM soci WHERE variable = 'EA_BchDH' and geotype='Boro2010' and geoid=a.boro) as moe_bach_deg_boro,
-        (SELECT p FROM soci WHERE variable = 'EA_BchDH' and geotype='Boro2010' and geoid=a.boro) as pct_bach_deg_boro,
+        (SELECT z FROM soci WHERE variable = 'EA_BchDH' and geotype='Boro2010' and geoid=a.borocode) as moe_bach_deg_boro,
+        (SELECT p FROM soci WHERE variable = 'EA_BchDH' and geotype='Boro2010' and geoid=a.borocode) as pct_bach_deg_boro,
         (SELECT z FROM soci WHERE variable = 'EA_BchDH' and geotype='PUMA2010' and geoid=a.puma) as moe_bach_deg,
         (SELECT p FROM soci WHERE variable = 'EA_BchDH' and geotype='PUMA2010' and geoid=a.puma) as pct_bach_deg
     FROM (
@@ -110,10 +110,17 @@ CREATE TEMP TABLE acs as (
             (CASE 
                 WHEN geogname ~* 'Brooklyn' then 'Brooklyn'
                 WHEN geogname ~* 'Manhattan' then 'Manhattan'
-                WHEN geogname ~* 'Staten Island' then 'Staten Island'
+            	WHEN geogname ~* 'Staten Island' then 'Staten Island'
                 WHEN geogname ~* 'Queens' then 'Queens'
                 WHEN geogname ~* 'Bronx' then 'Bronx'
-            END) as boro
+            END) as boro,
+            (CASE 
+                WHEN geogname ~* 'Brooklyn' then '3'
+                WHEN geogname ~* 'Manhattan' then '1'
+            	WHEN geogname ~* 'Staten Island' then '5'
+                WHEN geogname ~* 'Queens' then '4'
+                WHEN geogname ~* 'Bronx' then '2'
+            END) as borocode
         FROM demo
         WHERE geotype='PUMA2010'
     ) a
