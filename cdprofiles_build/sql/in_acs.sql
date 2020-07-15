@@ -6,6 +6,8 @@ CREATE TABLE _acs (
     moe_under18_rate_nyc double precision,
     moe_under18_rate_boro double precision,
     pop_acs double precision,
+    pop_acs_boro double precision,
+    pop_acs_nyc double precision,
     pct_hispanic double precision,
     pct_asian_nh double precision,
     pct_black_nh double precision,
