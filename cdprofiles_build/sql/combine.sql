@@ -8,6 +8,8 @@ JOIN_ACS AS (
         a.moe_under18_rate_nyc,
         a.moe_under18_rate_boro,
         a.pop_acs,
+        a.pop_acs_boro,
+        a.pop_acs_nyc,
         a.pct_hispanic,
         a.pct_asian_nh,
         a.pct_black_nh,
@@ -99,7 +101,10 @@ JOIN_CRIME AS (
         a.*,
         b.crime_count,
         b.crime_count_boro,
-        b.crime_count_nyc
+        b.crime_count_nyc,
+        round(b.crime_count*1000/a.pop_acs::numeric,1) as crime_per_1000,
+        round(b.crime_count_boro*1000/a.pop_acs_boro::numeric,1) as crime_per_1000_boro,
+        round(b.crime_count_nyc*1000/a.pop_acs_nyc::numeric,1) as crime_per_1000_nyc
     FROM JOIN_ACS a
     LEFT JOIN crime b
     ON a.borocd = b.borocd
@@ -190,5 +195,9 @@ SELECT
     :'V_CRIME' as v_crime
 INTO combined
 FROM JOIN_floodplain;
+
+ALTER TABLE combined
+DROP COLUMN pop_acs_boro,
+DROP COLUMN pop_acs_nyc;
 
 \COPY combined TO PSTDOUT DELIMITER ',' CSV HEADER;

@@ -14,6 +14,7 @@ display "loading crime data"
 docker run --rm\
     -v $(pwd):/src\
     -w /src/python\
+    --user $UID\
     -e API_TOKEN=$API_TOKEN\
     -e V_CRIME=$V_CRIME\
     -e BUILD_ENGINE=$BUILD_ENGINE\
@@ -21,14 +22,14 @@ docker run --rm\
         python3 out_crime.py" |  
     psql $BUILD_ENGINE -f sql/in_crime.sql
 
-psql $BUILD_ENGINE -c "
+cat data/cd_puma.csv | psql $BUILD_ENGINE -c "
     DROP TABLE IF EXISTS cd_puma;
     CREATE TABLE cd_puma (
         borocd text,
         puma text
     ); 
+    COPY cd_puma FROM STDIN DELIMITER ',' CSV HEADER;
 "
-imports_csv cd_puma
 
 display "loading FacDB data"
 psql -q $EDM_DATA -v VERSION=$V_FACDB -f sql/out_facdb.sql | 
