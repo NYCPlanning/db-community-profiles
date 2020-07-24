@@ -19,7 +19,7 @@ CREATE TEMP TABLE acs as (
     SELECT
         a.puma,
         a.boro,
-        (SELECT e FROM demo WHERE variable = 'FPop50t54' and geotype='PUMA2010' and geoid=a.puma) as female_50_54,
+        (SELECT p FROM demo WHERE variable = 'FPop50t54' and geotype='PUMA2010' and geoid=a.puma) as female_50_54,
         (SELECT z FROM demo WHERE variable = 'PopU181' and geotype='City2010') as moe_under18_rate_nyc,
         (SELECT z FROM demo WHERE variable = 'PopU181' and geotype='Boro2010' and geoid=a.borocode) as moe_under18_rate_boro,
         (SELECT e FROM demo WHERE variable = 'Pop_1' and geotype='PUMA2010' and geoid=a.puma) as pop_acs, 
@@ -49,7 +49,7 @@ CREATE TEMP TABLE acs as (
         (SELECT p FROM demo WHERE variable = 'FPop40t44' and geotype='PUMA2010' and geoid=a.puma) as female_40_44,
         (SELECT p FROM demo WHERE variable = 'MPop40t44' and geotype='PUMA2010' and geoid=a.puma) as male_40_44,
         (SELECT p FROM demo WHERE variable = 'FPop35t39' and geotype='PUMA2010' and geoid=a.puma) as female_35_39,
-        (SELECT e FROM demo WHERE variable = 'MPop35t39' and geotype='PUMA2010' and geoid=a.puma) as male_35_39,
+        (SELECT p FROM demo WHERE variable = 'MPop35t39' and geotype='PUMA2010' and geoid=a.puma) as male_35_39,
         (SELECT p FROM demo WHERE variable = 'FPop30t34' and geotype='PUMA2010' and geoid=a.puma) as female_30_34,
         (SELECT p FROM demo WHERE variable = 'MPop30t34' and geotype='PUMA2010' and geoid=a.puma) as male_30_34,
         (SELECT p FROM demo WHERE variable = 'FPop25t29' and geotype='PUMA2010' and geoid=a.puma) as female_25_29,
