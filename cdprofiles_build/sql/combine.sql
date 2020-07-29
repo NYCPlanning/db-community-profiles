@@ -190,8 +190,8 @@ JOIN_floodplain as (
 SELECT 
     *,
     :'V_PLUTO' as v_pluto,
-    :'V_ACS' as v_facdb,
-    :'V_FACDB' as v_acs,
+    :'V_ACS' as v_acs,
+    :'V_FACDB' as v_facdb,
     :'V_CRIME' as v_crime
 INTO combined
 FROM JOIN_floodplain;
