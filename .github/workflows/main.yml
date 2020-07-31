@@ -1,33 +1,17 @@
-name: Building Community Profiles
+name: Build Community Profiles
 
 on:
-  push:
-    branches: [ master ]
-    paths-ignore:
-      - '**.md'
-      - '**.csv'
+  repository_dispatch:
+    types: [build]
+
 jobs:
   test:
     runs-on: ubuntu-latest
-    if: contains(github, '[test]')
     env:
       RECIPE_ENGINE: ${{ secrets.RECIPE_ENGINE }}
       EDM_DATA: ${{ secrets.EDM_DATA }}
       API_TOKEN: ${{ secrets.API_TOKEN }}
-      BUILD_ENGINE: postgresql://postgres:postgres@localhost:5432/postgres
-
-    services:
-      postgres:
-        image: postgis/postgis:11-3.0-alpine
-        env:
-          POSTGRES_PASSWORD: postgres
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
+      BUILD_ENGINE: ${{ secrets.BUILD_ENGINE }}
 
     steps:
     - uses: actions/checkout@v2
@@ -47,3 +31,16 @@ jobs:
         name: output
         path: output/cd_profiles.csv
 
+    - name: Commit files
+      run: |
+          DATE=$(date)
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git pull
+          git add output/cd_profiles.csv
+          git commit -m "🎉 Rerun and Update Community Profiles Data $DATE" -a
+          
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
