@@ -48,7 +48,7 @@ CREATE TEMP TABLE PLUTO_landusearea_commpro as (
         ROUND(((lot_area___parking / totallotarea)::numeric*100),2) as pct_lot_area___parking,
         ROUND(lot_area___vacant) as lot_area___vacant,
         ROUND(((lot_area___vacant / totallotarea)::numeric*100),2) as pct_lot_area___vacant,
-        ROUND(lot_area___other_no_data),
+        ROUND(lot_area___other_no_data) as lot_area___other_no_data,
         ROUND(((lot_area___other_no_data / totallotarea)::numeric*100),2) as pct_lot_area___other_no_data,
         ROUND(total_lot_area) as total_lot_area
     FROM landusesums a, sumareas b
