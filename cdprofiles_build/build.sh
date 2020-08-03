@@ -39,7 +39,7 @@ display "loading PLUTO data"
 psql -q $EDM_DATA -v VERSION=$V_PLUTO -f sql/out_pluto_landusecount.sql | 
     psql $BUILD_ENGINE -f sql/in_pluto_landusecount.sql &
 
-psql -q $EDM_DATA -v VERSION=$V_PLUTO -f sql/out_pluto_landuseareageom.sql |
+psql -q $EDM_DATA -v VERSION=$V_PLUTO -f sql/out_pluto_landusearea.sql |
     psql $BUILD_ENGINE -f sql/in_pluto_landusearea.sql &
 
 psql -q $EDM_DATA -v VERSION=$V_PLUTO -f sql/out_floodplain.sql |
