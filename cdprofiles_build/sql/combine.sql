@@ -198,23 +198,24 @@ JOIN_geom as (
     ON a.borocd = b.borocd   
 ),
 JOIN_titles as (
-    a.*,
-    b.cd_full_title,
-    b.cd_short_title
+    SELECT
+        a.*,
+        b.cd_full_title,
+        b.cd_short_title
     FROM JOIN_geom a
     LEFT JOIN cd_titles b
     ON a.borocd = b.borocd
 ),
 JOIN_cb_contact as (
-    a.*,
-    b.cb_email,
-    b.cb_website
+    SELECT
+        a.*,
+        b.cb_email,
+        b.cb_website
     FROM JOIN_titles a
     LEFT JOIN cb_contact b
     ON a.borocd = b.borocd
 )
 
-)
 SELECT 
     *,
     :'V_PLUTO' as v_pluto,

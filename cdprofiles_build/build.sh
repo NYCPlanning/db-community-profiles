@@ -72,4 +72,5 @@ psql -q $BUILD_ENGINE\
     -v V_ACS=$V_ACS\
     -v V_FACDB=$V_FACDB\
     -v V_CRIME=$V_CRIME\
+    -v V_GEO=$V_GEO\
     -f sql/combine.sql > ../output/cd_profiles.csv
