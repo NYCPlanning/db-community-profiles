@@ -196,7 +196,36 @@ JOIN_floodplain as (
     FROM JOIN_facdb a
     LEFT JOIN floodplain b
     ON a.borocd = b.borocd
+),
+JOIN_geom as (
+    SELECT
+        a.*,
+        b.acres,
+        b.area_sqmi,
+        b.wkb_geometry
+    FROM JOIN_floodplain a
+    LEFT JOIN cd_geo b
+    ON a.borocd = b.borocd   
+),
+JOIN_titles as (
+    SELECT
+        a.*,
+        b.cd_full_title,
+        b.cd_short_title
+    FROM JOIN_geom a
+    LEFT JOIN cd_titles b
+    ON a.borocd = b.borocd
+),
+JOIN_cb_contact as (
+    SELECT
+        a.*,
+        b.cb_email,
+        b.cb_website
+    FROM JOIN_titles a
+    LEFT JOIN cb_contact b
+    ON a.borocd = b.borocd
 )
+
 SELECT 
     *,
     :'V_PLUTO' as v_pluto,
@@ -204,8 +233,9 @@ SELECT
     :'V_FACDB' as v_facdb,
     :'V_CRIME' as v_crime,
     :'V_SANITATION' as v_sanitation
+    :'V_GEO' as v_geo
 INTO combined
-FROM JOIN_floodplain;
+FROM JOIN_cb_contact;
 
 ALTER TABLE combined
 DROP COLUMN pop_acs_boro,
