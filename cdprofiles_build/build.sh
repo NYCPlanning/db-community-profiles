@@ -13,7 +13,20 @@ docker run --rm\
         python3 out_crime.py" |  
     psql $BUILD_ENGINE -f sql/in_crime.sql
 
+
+display "loading sanitation data"
+docker run --rm\
+    -v $(pwd):/src\
+    -w /src/python\
+    -e V_SANITATION=$V_SANITATION\
+    -e BUILD_ENGINE=$BUILD_ENGINE\
+    nycplanning/cook:latest bash -c "
+        python3 out_sanitation.py" |  
+    psql $BUILD_ENGINE -f sql/in_sanitation.sql
+
+
 display "loading look-up tables: puma, cd titles, cb contact"
+
 cat data/cd_puma.csv | psql $BUILD_ENGINE -c "
     DROP TABLE IF EXISTS cd_puma;
     CREATE TABLE cd_puma (
@@ -72,5 +85,6 @@ psql -q $BUILD_ENGINE\
     -v V_ACS=$V_ACS\
     -v V_FACDB=$V_FACDB\
     -v V_CRIME=$V_CRIME\
+    -v V_SANITATION=$V_SANITATION\
     -v V_GEO=$V_GEO\
     -f sql/combine.sql > ../output/cd_profiles.csv

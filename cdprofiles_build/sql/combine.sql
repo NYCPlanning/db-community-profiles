@@ -109,6 +109,16 @@ JOIN_CRIME AS (
     LEFT JOIN crime b
     ON a.borocd = b.borocd
 ),
+JOIN_sanitation AS(
+    SELECT
+        a.*,
+        b.pct_clean_strts,
+        b.pct_clean_strts_boro,
+        b.pct_clean_strts_nyc
+    FROM JOIN_CRIME a
+    LEFT JOIN sanitation b
+    ON a.borocd = b.borocd
+),
 JOIN_pluto_landusearea AS (
     SELECT
         a.*,
@@ -137,7 +147,7 @@ JOIN_pluto_landusearea AS (
         b.lot_area___other_no_data,
         b.pct_lot_area___other_no_data,
         b.total_lot_area
-    FROM JOIN_CRIME a
+    FROM JOIN_sanitation a
     LEFT JOIN pluto_landusearea b
     ON a.borocd = b.borocd
 ),
@@ -222,6 +232,7 @@ SELECT
     :'V_ACS' as v_acs,
     :'V_FACDB' as v_facdb,
     :'V_CRIME' as v_crime,
+    :'V_SANITATION' as v_sanitation
     :'V_GEO' as v_geo
 INTO combined
 FROM JOIN_cb_contact;
