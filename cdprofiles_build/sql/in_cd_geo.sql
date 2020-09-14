@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS cd_geo;
-CREATE TABLE cd_geoms (
+CREATE TABLE cd_geo (
     borocd text,
     acres numeric,
     area_sqmi numeric,
