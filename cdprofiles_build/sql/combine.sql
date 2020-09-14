@@ -223,7 +223,7 @@ SELECT
     :'V_CRIME' as v_crime,
     :'V_GEO' as v_geo
 INTO combined
-FROM JOIN_titles;
+FROM JOIN_cb_contact;
 
 ALTER TABLE combined
 DROP COLUMN pop_acs_boro,
