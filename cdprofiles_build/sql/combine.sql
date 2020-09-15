@@ -224,6 +224,14 @@ JOIN_cb_contact as (
     FROM JOIN_titles a
     LEFT JOIN cb_contact b
     ON a.borocd = b.borocd
+),
+JOIN_parks as (
+    SELECT
+        a.*,
+        b.pct_served_parks
+    FROM JOIN_cb_contact a
+    LEFT JOIN parks b
+    ON a.borocd = b.borocd
 )
 
 SELECT 
@@ -232,10 +240,11 @@ SELECT
     :'V_ACS' as v_acs,
     :'V_FACDB' as v_facdb,
     :'V_CRIME' as v_crime,
-    :'V_SANITATION' as v_sanitation
-    :'V_GEO' as v_geo
+    :'V_SANITATION' as v_sanitation,
+    :'V_GEO' as v_geo,
+    :'V_PARKS' as v_parks
 INTO combined
-FROM JOIN_cb_contact;
+FROM JOIN_parks;
 
 ALTER TABLE combined
 DROP COLUMN pop_acs_boro,
