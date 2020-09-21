@@ -35,6 +35,7 @@ docker run --rm\
     -e V_PARKS=$V_PARKS\
     -e BUILD_ENGINE=$BUILD_ENGINE\
     nycplanning/cook:latest bash -c "pip3 install -q geopandas;
+        unzip -q ../data/park_service_area.zip -d ../data/;
         python3 out_parks.py" |  
     psql $BUILD_ENGINE -f sql/in_parks.sql
 
