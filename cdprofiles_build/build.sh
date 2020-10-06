@@ -17,7 +17,6 @@ docker run --rm\
         python3 out_crime.py" |  
     psql $BUILD_ENGINE -f sql/in_crime.sql
 
-
 display "loading sanitation data"
 docker run --rm\
     -v $(pwd):/src\
@@ -28,18 +27,7 @@ docker run --rm\
         python3 out_sanitation.py" |  
     psql $BUILD_ENGINE -f sql/in_sanitation.sql
 
-display "loading park access data"
-docker run --rm\
-    -v $(pwd):/src\
-    -w /src/python\
-    -e V_PARKS=$V_PARKS\
-    -e BUILD_ENGINE=$BUILD_ENGINE\
-    nycplanning/cook:latest bash -c "pip3 install -q geopandas;
-        unzip -q ../data/park_service_area.zip -d ../data/;
-        python3 out_parks.py" |  
-    psql $BUILD_ENGINE -f sql/in_parks.sql
-
-display "loading look-up tables: puma, cd titles, cb contact"
+display "loading look-up tables: puma, cd titles, cb contact, cd to bctcb2010"
 
 cat data/cd_puma.csv | psql $BUILD_ENGINE -c "
     DROP TABLE IF EXISTS cd_puma;
@@ -69,6 +57,30 @@ cat data/cb_contact.csv | psql $BUILD_ENGINE -c "
     ); 
     COPY cb_contact FROM STDIN DELIMITER ',' CSV HEADER;
 "
+
+cat data/cd_to_block.csv | psql $BUILD_ENGINE -c "
+    DROP TABLE IF EXISTS cd_bctcb2010;
+    CREATE TABLE cd_bctcb2010 (
+        bctcb2010 text,
+        cd text,
+        geom geometry(Geometry, 4326)
+    ); 
+    COPY cd_bctcb2010 FROM STDIN DELIMITER ',' CSV HEADER;
+"
+
+display "loading 2010 decennial population data"
+psql -q $EDM_DATA -v VERSION=$V_FACDB -f sql/out_cb_pop.sql | 
+    psql $BUILD_ENGINE -f sql/in_cb_pop.sql 
+
+display "loading park access data"
+docker run --rm\
+    -v $(pwd):/src\
+    -w /src/python\
+    -e V_PARKS=$V_PARKS\
+    -e BUILD_ENGINE=$BUILD_ENGINE\
+    nycplanning/cook:latest bash -c "pip3 install -q geopandas;
+        python3 out_parks.py" |  
+    psql $BUILD_ENGINE -f sql/in_parks.sql
 
 display "loading FacDB data"
 psql -q $EDM_DATA -v VERSION=$V_FACDB -f sql/out_facdb.sql | 

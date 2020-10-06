@@ -7,16 +7,17 @@ CREATE TEMP TABLE tmp (
 \COPY tmp FROM PSTDIN DELIMITER ',' CSV HEADER;
 
 WITH geom_tmp AS(
-    SELECT ST_GeometryFromText(geom, 4326) as geom
+    SELECT ST_MakeValid(ST_GeometryFromText(geom, 4326)) as geom
     FROM tmp
 )
 SELECT
-b.borocd,
-(CASE
-    WHEN ST_OVERLAPS(a.geom, b.wkb_geometry) THEN 
-        ST_AREA(ST_INTERSECTION(a.geom, b.wkb_geometry)) / ST_AREA(b.wkb_geometry)
+b.cd as borocd,
+SUM(CASE
+    WHEN b.pop_2010 <> 0 AND ST_OVERLAPS(a.geom, b.geom) THEN 
+        ST_AREA(ST_INTERSECTION(a.geom, b.geom))*b.pop_2010 / b.area
     ELSE 0
 END) as pct_served_parks
 INTO PARKS
-FROM geom_tmp a, cd_geo b;
+FROM geom_tmp a, bctcb_pop_2010 b
+GROUP BY borocd;
 
