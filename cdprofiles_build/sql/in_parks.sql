@@ -6,25 +6,37 @@ CREATE TEMP TABLE tmp (
 
 \COPY tmp FROM PSTDIN DELIMITER ',' CSV HEADER;
 
-WITH geom_tmp AS(
-    SELECT ST_MakeValid(ST_GeometryFromText(geom, 4326)) as geom
+WITH parks_subdivided AS(
+    SELECT 
+        ST_SubDivide(ST_MakeValid(ST_GeometryFromText(geom, 4326)), 100) as geom  
     FROM tmp
+),
+park_block_intersections AS (
+    SELECT 
+        b.bctcb2010,
+        b.cd,
+        b.pop_2010,
+        SUM(ST_Area(ST_Intersection(a.geom, b.geom))) as intersect_area,
+        b.area
+    FROM parks_subdivided a, bctcb_pop_2010 b
+    GROUP BY b.bctcb2010, b.pop_2010, b.area, b.geom, b.cd
 )
+
 SELECT
-b.cd as borocd,
-(CASE WHEN SUM(b.pop_2010) = 0 THEN NULL
-    ELSE
-    SUM(CASE
-        WHEN b.pop_2010 = 0 THEN 0
-        WHEN b.area = 0 THEN 0
-        WHEN ST_CoveredBy(b.geom, a.geom) 
-            THEN b.pop_2010
-        WHEN NOT ST_Intersects(a.geom, b.geom) THEN 0
-        ELSE 
-            ST_AREA(ST_INTERSECTION(a.geom, b.geom))* b.pop_2010 / b.area
-    END) / SUM(b.pop_2010)
-END) as pct_served_parks
+    cd as borocd,
+    SUM(pop_2010) as pop_2010,
+    SUM(intersect_area) as intersect_area,
+    SUM(area) as area,
+    SUM(intersect_area)/SUM(area) as prop_area_with_access,
+    (CASE WHEN SUM(pop_2010) = 0 THEN NULL
+        ELSE
+        SUM(CASE
+                WHEN pop_2010 = 0 THEN 0
+                WHEN area = 0 THEN 0
+                ELSE intersect_area * pop_2010 / area
+            END) / SUM(pop_2010)
+    END) as pct_served_parks
 INTO PARKS
-FROM geom_tmp a, bctcb_pop_2010 b
+FROM park_block_intersections
 GROUP BY borocd;
 
