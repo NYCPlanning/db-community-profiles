@@ -1,6 +1,10 @@
 #!/bin/bash
 source config.sh
 
+display "loading CD boundary data"
+psql -q $RECIPE_ENGINE -v VERSION=$V_GEO -f sql/out_cd_geo.sql |
+    psql $BUILD_ENGINE -f sql/in_cd_geo.sql 
+
 display "loading crime data"
 docker run --rm\
     -v $(pwd):/src\
@@ -13,7 +17,6 @@ docker run --rm\
         python3 out_crime.py" |  
     psql $BUILD_ENGINE -f sql/in_crime.sql
 
-
 display "loading sanitation data"
 docker run --rm\
     -v $(pwd):/src\
@@ -24,8 +27,7 @@ docker run --rm\
         python3 out_sanitation.py" |  
     psql $BUILD_ENGINE -f sql/in_sanitation.sql
 
-
-display "loading look-up tables: puma, cd titles, cb contact"
+display "loading look-up tables: puma, cd titles, cb contact, cd to bctcb2010"
 
 cat data/cd_puma.csv | psql $BUILD_ENGINE -c "
     DROP TABLE IF EXISTS cd_puma;
@@ -56,9 +58,29 @@ cat data/cb_contact.csv | psql $BUILD_ENGINE -c "
     COPY cb_contact FROM STDIN DELIMITER ',' CSV HEADER;
 "
 
-display "loading CD boundary data"
-psql -q $RECIPE_ENGINE -v VERSION=$V_GEO -f sql/out_cd_geo.sql |
-    psql $BUILD_ENGINE -f sql/in_cd_geo.sql & 
+cat data/cd_to_block.csv | psql $BUILD_ENGINE -c "
+    DROP TABLE IF EXISTS cd_bctcb2010;
+    CREATE TABLE cd_bctcb2010 (
+        bctcb2010 text,
+        cd text,
+        geom geometry(Geometry, 4326)
+    ); 
+    COPY cd_bctcb2010 FROM STDIN DELIMITER ',' CSV HEADER;
+"
+
+display "loading 2010 decennial population data"
+psql -q $EDM_DATA -v VERSION=$V_FACDB -f sql/out_cb_pop.sql | 
+    psql $BUILD_ENGINE -f sql/in_cb_pop.sql 
+
+display "loading park access data"
+docker run --rm\
+    -v $(pwd):/src\
+    -w /src/python\
+    -e V_PARKS=$V_PARKS\
+    -e BUILD_ENGINE=$BUILD_ENGINE\
+    nycplanning/cook:latest bash -c "pip3 install -q geopandas;
+        python3 out_parks.py" |  
+    psql $BUILD_ENGINE -f sql/in_parks.sql
 
 display "loading FacDB data"
 psql -q $EDM_DATA -v VERSION=$V_FACDB -f sql/out_facdb.sql | 
@@ -87,4 +109,5 @@ psql -q $BUILD_ENGINE\
     -v V_CRIME=$V_CRIME\
     -v V_SANITATION=$V_SANITATION\
     -v V_GEO=$V_GEO\
+    -v V_PARKS=$V_PARKS\
     -f sql/combine.sql > ../output/cd_profiles.csv
