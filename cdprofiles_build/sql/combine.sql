@@ -232,6 +232,18 @@ JOIN_parks as (
     FROM JOIN_cb_contact a
     LEFT JOIN parks b
     ON a.borocd = b.borocd
+),
+JOIN_dcp as (
+    SELECT
+        a.*,
+        b.neighborhoods,
+        b.cd_son_fy2018,
+        b.son_issue_1,
+        b.son_issue_2,
+        b.son_issue_3
+    FROM JOIN_parks a
+    LEFT JOIN cd_son b
+    ON a.borocd = b.borocd
 )
 
 SELECT 
@@ -244,7 +256,7 @@ SELECT
     :'V_GEO' as v_geo,
     :'V_PARKS' as v_parks
 INTO combined
-FROM JOIN_parks;
+FROM JOIN_dcp;
 
 ALTER TABLE combined
 DROP COLUMN pop_acs_boro,

@@ -27,7 +27,7 @@ docker run --rm\
         python3 out_sanitation.py" |  
     psql $BUILD_ENGINE -f sql/in_sanitation.sql
 
-display "loading look-up tables: puma, cd titles, cb contact, cd to bctcb2010"
+display "loading look-up tables: puma, cd titles, cb contact, cd to bctcb2010, son"
 
 cat data/cd_puma.csv | psql $BUILD_ENGINE -c "
     DROP TABLE IF EXISTS cd_puma;
@@ -66,6 +66,19 @@ cat data/cd_to_block.csv | psql $BUILD_ENGINE -c "
         geom geometry(Geometry, 4326)
     ); 
     COPY cd_bctcb2010 FROM STDIN DELIMITER ',' CSV HEADER;
+"
+
+cat data/cd_son.csv | psql $BUILD_ENGINE -c "
+    DROP TABLE IF EXISTS cd_son;
+    CREATE TABLE cd_son (
+        borocd text,
+        neighborhoods text,
+        cd_son_fy2018 text,
+        son_issue_1 text,
+        son_issue_2 text,
+        son_issue_3 text
+    ); 
+    COPY cd_son FROM STDIN DELIMITER ',' CSV HEADER;
 "
 
 display "loading 2010 decennial population data"
