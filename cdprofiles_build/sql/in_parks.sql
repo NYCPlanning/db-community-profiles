@@ -1,4 +1,7 @@
+DROP TABLE IF EXISTS parks_subdivided;
+DROP TABLE IF EXISTS _PARKS;
 DROP TABLE IF EXISTS PARKS;
+
 CREATE TEMP TABLE tmp (
     type text,
     geom text
@@ -6,21 +9,23 @@ CREATE TEMP TABLE tmp (
 
 \COPY tmp FROM PSTDIN DELIMITER ',' CSV HEADER;
 
-WITH parks_subdivided AS(
+CREATE TABLE parks_subdivided AS(
     SELECT 
         ST_SubDivide(ST_MakeValid(ST_GeometryFromText(geom, 4326)), 100) as geom  
     FROM tmp
-),
-park_block_intersections AS (
-    SELECT 
-        b.bctcb2010,
-        b.cd,
-        b.pop_2010,
-        SUM(ST_Area(ST_Intersection(a.geom, b.geom))) as intersect_area,
-        b.area
-    FROM parks_subdivided a, bctcb_pop_2010 b
-    GROUP BY b.bctcb2010, b.pop_2010, b.area, b.geom, b.cd
-)
+);
+CREATE INDEX "parks_subdivided_geom_idx" ON parks_subdivided USING GIST (geom gist_geometry_ops_2d);
+CREATE INDEX "bctcb_pop_2010_geom_idx" ON bctcb_pop_2010 USING GIST (geom gist_geometry_ops_2d);
+
+SELECT 
+    b.bctcb2010,
+    b.cd,
+    b.pop_2010,
+    SUM(CASE WHEN ST_Intersects(a.geom, b.geom) THEN ST_Area(ST_Intersection(a.geom, b.geom)) ELSE 0 END) as intersect_area,
+    b.area
+INTO _PARKS
+FROM parks_subdivided a, bctcb_pop_2010 b
+GROUP BY b.bctcb2010, b.pop_2010, b.area, b.geom, b.cd;
 
 SELECT
     cd as borocd,
@@ -37,6 +42,6 @@ SELECT
             END) / SUM(pop_2010)
     END) as pct_served_parks
 INTO PARKS
-FROM park_block_intersections
+FROM _PARKS
 GROUP BY borocd;
 
