@@ -27,7 +27,7 @@ docker run --rm\
         python3 out_sanitation.py" |  
     psql $BUILD_ENGINE -v VERSION=$V_SANITATION -f sql/in_sanitation.sql
 
-display "loading look-up tables: puma, cd titles, cb contact, cd to bctcb2010, son"
+display "loading look-up tables: puma, cd titles, cb contact, cd to bctcb2010, son, tooltips"
 
 cat data/cd_puma.csv | psql $BUILD_ENGINE -c "
     DROP TABLE IF EXISTS cd_puma;
@@ -81,6 +81,17 @@ cat data/cd_son.csv | psql $BUILD_ENGINE -c "
     COPY cd_son FROM STDIN DELIMITER ',' CSV HEADER;
 "
 
+cat data/cd_tooltips.csv | psql $BUILD_ENGINE -c "
+    DROP TABLE IF EXISTS cd_tooltips;
+    CREATE TABLE cd_tooltips (
+        acs_tooltip text,
+        acs_tooltip_2 text,
+        acs_tooltip_3 text,
+        borocd text
+    ); 
+    COPY cd_tooltips FROM STDIN DELIMITER ',' CSV HEADER;
+"
+
 display "loading 2010 decennial population data"
 psql -q $EDM_DATA -v VERSION=$V_FACDB -f sql/out_cb_pop.sql | 
     psql $BUILD_ENGINE -f sql/in_cb_pop.sql 
@@ -123,4 +134,4 @@ psql -q $BUILD_ENGINE\
     -v V_SANITATION=$V_SANITATION\
     -v V_GEO=$V_GEO\
     -v V_PARKS=$V_PARKS\
-    -f sql/combine.sql > ../output/cd_profiles.csv
+    -f sql/combine.sql
