@@ -25,7 +25,7 @@ docker run --rm\
     -e BUILD_ENGINE=$BUILD_ENGINE\
     nycplanning/cook:latest bash -c "
         python3 out_sanitation.py" |  
-    psql $BUILD_ENGINE -f sql/in_sanitation.sql
+    psql $BUILD_ENGINE -v VERSION=$V_SANITATION -f sql/in_sanitation.sql
 
 display "loading look-up tables: puma, cd titles, cb contact, cd to bctcb2010, son"
 
@@ -123,4 +123,7 @@ psql -q $BUILD_ENGINE\
     -v V_SANITATION=$V_SANITATION\
     -v V_GEO=$V_GEO\
     -v V_PARKS=$V_PARKS\
-    -f sql/combine.sql > ../output/cd_profiles.csv
+    -f sql/combine.sql
+
+display "splitting tables for downloads"
+psql -q $EDM_DATA -f sql/create_views.sql 

@@ -3,6 +3,13 @@ WITH
 JOIN_ACS AS (
 	SELECT
         b.borocd,
+        (CASE 
+            WHEN LEFT(b.borocd, 1) = '1' THEN 'Manhattan'
+            WHEN LEFT(b.borocd, 1) = '2' THEN 'Bronx'
+            WHEN LEFT(b.borocd, 1) = '3' THEN 'Brooklyn'
+            WHEN LEFT(b.borocd, 1) = '4' THEN 'Queens'
+            WHEN LEFT(b.borocd, 1) = '5' THEN 'Staten Island'
+        END) as borough,
 		b.puma,
         a.female_50_54,
         a.moe_under18_rate_nyc,
@@ -261,5 +268,3 @@ FROM JOIN_dcp;
 ALTER TABLE combined
 DROP COLUMN pop_acs_boro,
 DROP COLUMN pop_acs_nyc;
-
-\COPY combined TO PSTDOUT DELIMITER ',' CSV HEADER;
