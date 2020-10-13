@@ -25,7 +25,7 @@ docker run --rm\
     -e BUILD_ENGINE=$BUILD_ENGINE\
     nycplanning/cook:latest bash -c "
         python3 out_sanitation.py" |  
-    psql $BUILD_ENGINE -f sql/in_sanitation.sql
+    psql $BUILD_ENGINE -v VERSION=$V_SANITATION -f sql/in_sanitation.sql
 
 display "loading look-up tables: puma, cd titles, cb contact, cd to bctcb2010, son"
 

@@ -2,13 +2,14 @@ import pandas as pd
 import os
 import sys
 
-url='https://data.cityofnewyork.us/resource/rqhp-hivt.csv'
+url='https://data.cityofnewyork.us/api/views/rqhp-hivt/rows.csv?accessType=DOWNLOAD'
 df = pd.read_csv(url, dtype=str)
 
 cols = [
+    "month",
     "borough",
     "district",
-    "acceptable_streets_feb_2014"
+    "acceptable_streets_%"
 ]
 
 df.columns = [i.lower().replace(" ", "_") for i in df.columns]
