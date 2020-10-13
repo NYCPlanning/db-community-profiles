@@ -126,4 +126,4 @@ psql -q $BUILD_ENGINE\
     -f sql/combine.sql
 
 display "splitting tables for downloads"
-psql -q $EDM_DATA -f sql/create_views.sql 
+psql -q $BUILD_ENGINE -f sql/create_views.sql 

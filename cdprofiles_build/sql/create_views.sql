@@ -56,7 +56,7 @@ CREATE VIEW cd_demo_race_economics AS (
         borocd as cd_number,
         borough,
         pct_foreign_born,
-        moe_pct_foreign_born,
+        moe_foreign_born,
         lep_rate,
         moe_lep_rate,
         pct_white_nh,
@@ -133,7 +133,7 @@ CREATE VIEW cd_built_environment AS (
         cd_tot_resunits as cd_total_resunits,
         pct_clean_strts,
         area_sqmi as cd_area_sqmi,
-        area_acres as cd_area_acres
+        acres as cd_area_acres
     FROM combined
 );
 

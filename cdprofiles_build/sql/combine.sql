@@ -235,7 +235,7 @@ JOIN_cb_contact as (
 JOIN_parks as (
     SELECT
         a.*,
-        b.pct_served_parks
+        ROUND(b.pct_served_parks::numeric, 2)*100 as pct_served_parks
     FROM JOIN_cb_contact a
     LEFT JOIN parks b
     ON a.borocd = b.borocd
@@ -265,6 +265,6 @@ SELECT
 INTO combined
 FROM JOIN_dcp;
 
-ALTER TABLE combined
-DROP COLUMN pop_acs_boro,
-DROP COLUMN pop_acs_nyc;
+--ALTER TABLE combined
+--DROP COLUMN pop_acs_boro,
+--DROP COLUMN pop_acs_nyc;
