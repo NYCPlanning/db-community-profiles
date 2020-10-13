@@ -244,6 +244,16 @@ JOIN_dcp as (
     FROM JOIN_parks a
     LEFT JOIN cd_son b
     ON a.borocd = b.borocd
+),
+JOIN_tooltips as (
+    SELECT
+        a.*,
+        b.acs_tooltip,
+        b.acs_tooltip_2,
+        b.acs_tooltip_3
+    FROM JOIN_dcp a
+    LEFT JOIN cd_tooltips b
+    ON a.borocd = b.borocd
 )
 
 SELECT 
@@ -256,10 +266,10 @@ SELECT
     :'V_GEO' as v_geo,
     :'V_PARKS' as v_parks
 INTO combined
-FROM JOIN_dcp;
+FROM JOIN_tooltips;
 
 ALTER TABLE combined
 DROP COLUMN pop_acs_boro,
 DROP COLUMN pop_acs_nyc;
 
-\COPY combined TO PSTDOUT DELIMITER ',' CSV HEADER;
+--\COPY combined TO PSTDOUT DELIMITER ',' CSV HEADER;
