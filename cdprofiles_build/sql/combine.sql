@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS combined;
+DROP TABLE IF EXISTS combined CASCADE;
 WITH
 JOIN_ACS AS (
 	SELECT
@@ -122,30 +122,30 @@ JOIN_sanitation AS(
 JOIN_pluto_landusearea AS (
     SELECT
         a.*,
-        b.lot_area___res_1_2_family_bldg,
-        b.pct_lot_area___res_1_2_family_bldg,
-        b.lot_area___res_multifamily_walkup,
-        b.pct_lot_area___res_multifamily_walkup,
-        b.lot_area___res_multifamily_elevator,
-        b.pct_lot_area___res_multifamily_elevator,
-        b.lot_area___mixed_use,
-        b.pct_lot_area___mixed_use,
-        b.lot_area___commercial_office,
-        b.pct_lot_area___commercial_office,
-        b.lot_area___industrial_manufacturing,
-        b.pct_lot_area___industrial_manufacturing,
-        b.lot_area___transportation_utility,
-        b.pct_lot_area___transportation_utility,
-        b.lot_area___public_facility_institution,
-        b.pct_lot_area___public_facility_institution,
-        b.lot_area___open_space,
-        b.pct_lot_area___open_space,
-        b.lot_area___parking,
-        b.pct_lot_area___parking,
-        b.lot_area___vacant,
-        b.pct_lot_area___vacant,
-        b.lot_area___other_no_data,
-        b.pct_lot_area___other_no_data,
+        b.lot_area_res_1_2_family_bldg,
+        b.pct_lot_area_res_1_2_family_bldg,
+        b.lot_area_res_multifamily_walkup,
+        b.pct_lot_area_res_multifamily_walkup,
+        b.lot_area_res_multifamily_elevator,
+        b.pct_lot_area_res_multifamily_elevator,
+        b.lot_area_mixed_use,
+        b.pct_lot_area_mixed_use,
+        b.lot_area_commercial_office,
+        b.pct_lot_area_commercial_office,
+        b.lot_area_industrial_manufacturing,
+        b.pct_lot_area_industrial_manufacturing,
+        b.lot_area_transportation_utility,
+        b.pct_lot_area_transportation_utility,
+        b.lot_area_public_facility_institution,
+        b.pct_lot_area_public_facility_institution,
+        b.lot_area_open_space,
+        b.pct_lot_area_open_space,
+        b.lot_area_parking,
+        b.pct_lot_area_parking,
+        b.lot_area_vacant,
+        b.pct_lot_area_vacant,
+        b.lot_area_other_no_data,
+        b.pct_lot_area_other_no_data,
         b.total_lot_area
     FROM JOIN_sanitation a
     LEFT JOIN pluto_landusearea b
