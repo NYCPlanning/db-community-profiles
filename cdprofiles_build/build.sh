@@ -27,6 +27,16 @@ docker run --rm\
         python3 out_sanitation.py" |  
     psql $BUILD_ENGINE -v VERSION=$V_SANITATION -f sql/in_sanitation.sql
 
+display "loading poverty data"
+docker run --rm\
+    -v $(pwd):/src\
+    -w /src/python\
+    -e V_POVERTY=$V_POVERTY\
+    -e BUILD_ENGINE=$BUILD_ENGINE\
+    nycplanning/cook:latest bash -c "
+        python3 out_poverty.py" |  
+    psql $BUILD_ENGINE -v VERSION=$V_POVERTY -f sql/in_poverty.sql
+
 display "loading look-up tables: puma, cd titles, cb contact, cd to bctcb2010, son, tooltips"
 
 cat data/cd_puma.csv | psql $BUILD_ENGINE -c "
@@ -134,4 +144,5 @@ psql -q $BUILD_ENGINE\
     -v V_SANITATION=$V_SANITATION\
     -v V_GEO=$V_GEO\
     -v V_PARKS=$V_PARKS\
+    -v V_POVERTY=$V_POVERTY\
     -f sql/combine.sql
