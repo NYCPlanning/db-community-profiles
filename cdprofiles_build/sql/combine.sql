@@ -254,6 +254,17 @@ JOIN_tooltips as (
     FROM JOIN_dcp a
     LEFT JOIN cd_tooltips b
     ON a.borocd = b.borocd
+),
+JOIN_poverty as (
+    SELECT
+        a.*,
+        b.poverty_rate,
+        b.moe_poverty_rate,
+        b.poverty_rate_boro,
+        b.poverty_rate_nyc
+    FROM JOIN_tooltips a 
+    LEFT JOIN poverty b 
+    ON a.borocd = b.borocd
 )
 
 SELECT 
@@ -264,9 +275,10 @@ SELECT
     :'V_CRIME' as v_crime,
     :'V_SANITATION' as v_sanitation,
     :'V_GEO' as v_geo,
-    :'V_PARKS' as v_parks
+    :'V_PARKS' as v_parks,
+    :'V_POVERTY' as v_poverty
 INTO combined
-FROM JOIN_tooltips;
+FROM JOIN_poverty;
 
 ALTER TABLE combined
 DROP COLUMN pop_acs_boro,
