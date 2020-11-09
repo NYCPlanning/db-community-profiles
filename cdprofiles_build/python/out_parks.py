@@ -1,9 +1,9 @@
-import geopandas as gpd
 import sys
-import os
+from factfinder.main import Pff
 
-os.getcwd()
-path = 'https://data.cityofnewyork.us/api/geospatial/rg6q-zak8?method=export&format=Shapefile'
-gdf = gpd.read_file(path).set_crs("EPSG:4326")
-gdf.to_csv('raw_parks.csv', index=False)
-gdf.to_csv(sys.stdout, index=False)
+decennial = Pff(api_key=os.environ['CENSUS_API_KEY'], year=os.environ['V_DECENNIAL'])
+df_with_access = decennial.calculate_variable('pop2010', 'cd_park_access')
+df_total = decennial.calculate_variable('pop2010', 'cd')
+df = df_with_access.merge(df_total, on='census_geoid', suffixes=('_access', '_total'))
+df['per_access'] = df['e_access']/df['e_total']
+df[['census_geoid','per_access']].to_csv(sys.stdout, index=False)

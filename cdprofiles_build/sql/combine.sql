@@ -271,6 +271,7 @@ SELECT
     *,
     :'V_PLUTO' as v_pluto,
     :'V_ACS' as v_acs,
+    :'V_DECENNIAL' as v_decennial,
     :'V_FACDB' as v_facdb,
     :'V_CRIME' as v_crime,
     :'V_SANITATION' as v_sanitation,
