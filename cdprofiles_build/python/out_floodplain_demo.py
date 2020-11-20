@@ -1,6 +1,6 @@
-import reduce from functools
+from functools import reduce
 import pandas as pd
-from factfinder import Pff
+from factfinder.main import Pff
 
 acs = Pff(api_key=os.environ['API_KEY'], year = 2018)
 decennial = Pff(api_key=os.environ['API_KEY'], year = 2010)
