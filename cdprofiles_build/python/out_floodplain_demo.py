@@ -1,9 +1,10 @@
 from functools import reduce
 import pandas as pd
+import os
 from factfinder.main import Pff
 
-acs = Pff(api_key=(os.environ['V_ACS']).split('-')[1], year = 2018)
-decennial = Pff(api_key=os.environ['V_DECENNIAL'], year = 2010)
+acs = Pff(api_key=os.environ['CENSUS_API_KEY'], year=os.environ['V_ACS'].split('-')[1])
+decennial = Pff(api_key=os.environ['CENSUS_API_KEY'], year = os.environ['V_DECENNIAL'])
 
 dec_variable_mapping = [
     {'pff_variable': 'pop2010', 'geotype': 'cd_fp_100', 'column_mapping': {'e': 'fp_100_pop'}},
@@ -44,7 +45,8 @@ for i in dec_variable_mapping:
 for i in acs_variable_mapping:
     df.append(calculate(i), acs)
 
-dff = reduce(lambda  left,right: pd.merge(left,right, on=['census_geoid'],
+dff = reduce(lambda left,right: pd.merge(left,right, on=['census_geoid'],
                                             how='outer'), dfs)
 
 dff.to_csv('fp_output.csv', index=False)
+dff.to_csv(sys.stdout, index=False)
