@@ -2,8 +2,8 @@ from functools import reduce
 import pandas as pd
 from factfinder.main import Pff
 
-acs = Pff(api_key=os.environ['API_KEY'], year = 2018)
-decennial = Pff(api_key=os.environ['API_KEY'], year = 2010)
+acs = Pff(api_key=(os.environ['V_ACS']).split('-')[1], year = 2018)
+decennial = Pff(api_key=os.environ['V_DECENNIAL'], year = 2010)
 
 dec_variable_mapping = [
     {'pff_variable': 'pop2010', 'geotype': 'cd_fp_100', 'column_mapping': {'e': 'fp_100_pop'}},
