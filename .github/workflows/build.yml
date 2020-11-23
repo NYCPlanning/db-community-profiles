@@ -13,6 +13,15 @@ jobs:
       API_TOKEN: ${{ secrets.API_TOKEN }}
       BUILD_ENGINE: ${{ secrets.BUILD_ENGINE }}
       CENSUS_API_KEY: ${{ secrets.BUILD_ENGINE }}
+      V_PLUTO: ${{ github.event.client_payload.V_PLUTO }}
+      V_ACS: ${{ github.event.client_payload.V_ACS }}
+      V_DECENNIAL: ${{ github.event.client_payload.V_DECENNIAL }}
+      V_FACDB: ${{ github.event.client_payload.V_FACDB }}
+      V_CRIME: ${{ github.event.client_payload.V_CRIME }}
+      V_SANITATION: ${{ github.event.client_payload.V_SANITATION }}
+      V_GEO: ${{ github.event.client_payload.V_GEO }}
+      V_PARKS: ${{ github.event.client_payload.V_PARKS }}
+      V_POVERTY: ${{ github.event.client_payload.V_POVERTY }}
     steps:
     - uses: actions/checkout@v2
     - name: Install dependencies
