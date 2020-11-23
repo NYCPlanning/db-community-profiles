@@ -197,13 +197,40 @@ JOIN_floodplain as (
     LEFT JOIN floodplain b
     ON a.borocd = b.borocd
 ),
+JOIN_floodplain_demo as (
+    SELECT
+        a.*,
+        b.fp_100_cost_burden,
+        b.fp_500_cost_burden,
+        b.fp_100_cost_burden_value,
+        b.fp_500_cost_burden_value,
+        b.fp_100_rent_burden,
+        b.fp_500_rent_burden,
+        b.fp_100_rent_burden_value,
+        b.fp_500_rent_burden_value,
+        b.fp_100_mhhi,
+        b.fp_500_mhhi,
+        b.fp_100_permortg,
+        b.fp_500_permortg,
+        b.fp_100_mortg_value,
+        b.fp_500_mortg_value,
+        b.fp_100_ownerocc,
+        b.fp_500_ownerocc,
+        b.fp_100_ownerocc_value,
+        b.fp_500_ownerocc_value,
+        b.fp_100_pop,
+        b.fp_500_pop
+    FROM JOIN_floodplain a
+    LEFT JOIN floodplain_demo b
+    ON a.borocd = b.borocd
+),
 JOIN_geom as (
     SELECT
         a.*,
         b.acres,
         b.area_sqmi,
         b.wkb_geometry
-    FROM JOIN_floodplain a
+    FROM JOIN_floodplain_demo a
     LEFT JOIN cd_geo b
     ON a.borocd = b.borocd   
 ),
