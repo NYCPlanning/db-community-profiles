@@ -87,8 +87,8 @@ jobs:
     - name: Load ACS Data
       working-directory: cdprofiles_build
       run: |
-        psql -q $EDM_DATA -v VERSION=$V_ACS -f sql/out_acs.sql |
-        psql $BUILD_ENGINE -f sql/in_acs.sql
+        python3 python/out_acs.py |
+          psql $BUILD_ENGINE -f sql/in_acs.sql
 
     - name: Load titles, CB contact, SON, and tooltips
       working-directory: cdprofiles_build
