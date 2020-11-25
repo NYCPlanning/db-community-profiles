@@ -152,11 +152,44 @@ jobs:
           -v V_POVERTY=$V_POVERTY\
           -f sql/combine.sql
 
+    - name: Create download views
+      working-directory: cdprofiles_build
+      run: psql -q $BUILD_ENGINE -f sql/create_views.sql
+          
+    - name: Export outputs to csv
+      run: |
+        mkdir -p output
+        psql $BUILD_ENGINE -c "\COPY (
+              SELECT * FROM combined"
+          ) TO stdout DELIMITER ',' CSV HEADER;" > output/combined.csv & 
+        psql $BUILD_ENGINE -c "\COPY (
+            SELECT * FROM cd_demo_age_gender"
+          ) TO stdout DELIMITER ',' CSV HEADER;" > output/cd_demo_age_gender.csv &
+        psql $BUILD_ENGINE -c "\COPY (
+            SELECT * FROM cd_demo_race_economics"
+          ) TO stdout DELIMITER ',' CSV HEADER;" > output/cd_demo_race_economics.csv &
+        psql $BUILD_ENGINE -c "\COPY (
+            SELECT * FROM cd_administrative"
+          ) TO stdout DELIMITER ',' CSV HEADER;" > output/cd_administrative.csv &
+        psql $BUILD_ENGINE -c "\COPY (
+            SELECT * FROM cd_build_environment"
+          ) TO stdout DELIMITER ',' CSV HEADER;" > output/cd_build_environment.csv &
+        psql $BUILD_ENGINE -c "\COPY (
+            SELECT * FROM cd_floodplain"
+          ) TO stdout DELIMITER ',' CSV HEADER;" > output/cd_floodplain.csv &
+        psql $BUILD_ENGINE -c "\COPY (
+            SELECT * FROM boro_cd_attributes"
+          ) TO stdout DELIMITER ',' CSV HEADER;" > output/boro_cd_attributes.csv &
+        psql $BUILD_ENGINE -c "\COPY (
+            SELECT * FROM city_cd_attributes"
+          ) TO stdout DELIMITER ',' CSV HEADER;" > output/city_cd_attributes.csv
+
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
+      working-directory: cdprofiles_build
       with:
         name: output
-        path: output/cd_profiles.csv
+        path: output/
 
     - name: Commit files
       run: |
@@ -164,7 +197,7 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git pull
-          git add output/cd_profiles.csv
+          git add output/
           git commit -m "🎉 Rerun and Update Community Profiles Data $DATE" -a
           
     - name: Push changes
