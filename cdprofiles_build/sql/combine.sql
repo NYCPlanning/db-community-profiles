@@ -66,12 +66,12 @@ JOIN_ACS AS (
         a.under18_rate_boro,
         a.moe_under18_rate,
         a.under18_rate,
-        a.moe_lep_rate_nyc,
-        a.lep_rate_nyc,
-        a.moe_lep_rate_boro,
-        a.lep_rate_boro,
-        a.moe_lep_rate,
-        a.lep_rate,
+        --a.moe_lep_rate_nyc,
+        --a.lep_rate_nyc,
+        --a.moe_lep_rate_boro,
+        --a.lep_rate_boro,
+        --a.moe_lep_rate,
+        --a.lep_rate,
         a.moe_foreign_born,
         a.pct_foreign_born,
         a.moe_hh_rent_burd_nyc,
@@ -90,8 +90,8 @@ JOIN_ACS AS (
         a.unemployment_nyc,
         a.moe_unemployment_boro,
         a.unemployment_boro,
-        a.moe_unemployment,
-        a.unemployment,
+        a.moe_unemployment_cd,
+        a.unemployment_cd,
         a.moe_bach_deg_nyc,
         a.pct_bach_deg_nyc,
         a.moe_bach_deg_boro,
@@ -129,30 +129,30 @@ JOIN_sanitation AS(
 JOIN_pluto_landusearea AS (
     SELECT
         a.*,
-        b.lot_area___res_1_2_family_bldg,
-        b.pct_lot_area___res_1_2_family_bldg,
-        b.lot_area___res_multifamily_walkup,
-        b.pct_lot_area___res_multifamily_walkup,
-        b.lot_area___res_multifamily_elevator,
-        b.pct_lot_area___res_multifamily_elevator,
-        b.lot_area___mixed_use,
-        b.pct_lot_area___mixed_use,
-        b.lot_area___commercial_office,
-        b.pct_lot_area___commercial_office,
-        b.lot_area___industrial_manufacturing,
-        b.pct_lot_area___industrial_manufacturing,
-        b.lot_area___transportation_utility,
-        b.pct_lot_area___transportation_utility,
-        b.lot_area___public_facility_institution,
-        b.pct_lot_area___public_facility_institution,
-        b.lot_area___open_space,
-        b.pct_lot_area___open_space,
-        b.lot_area___parking,
-        b.pct_lot_area___parking,
-        b.lot_area___vacant,
-        b.pct_lot_area___vacant,
-        b.lot_area___other_no_data,
-        b.pct_lot_area___other_no_data,
+        b.lot_area_res_1_2_family_bldg,
+        b.pct_lot_area_res_1_2_family_bldg,
+        b.lot_area_res_multifamily_walkup,
+        b.pct_lot_area_res_multifamily_walkup,
+        b.lot_area_res_multifamily_elevator,
+        b.pct_lot_area_res_multifamily_elevator,
+        b.lot_area_mixed_use,
+        b.pct_lot_area_mixed_use,
+        b.lot_area_commercial_office,
+        b.pct_lot_area_commercial_office,
+        b.lot_area_industrial_manufacturing,
+        b.pct_lot_area_industrial_manufacturing,
+        b.lot_area_transportation_utility,
+        b.pct_lot_area_transportation_utility,
+        b.lot_area_public_facility_institution,
+        b.pct_lot_area_public_facility_institution,
+        b.lot_area_open_space,
+        b.pct_lot_area_open_space,
+        b.lot_area_parking,
+        b.pct_lot_area_parking,
+        b.lot_area_vacant,
+        b.pct_lot_area_vacant,
+        b.lot_area_other_no_data,
+        b.pct_lot_area_other_no_data,
         b.total_lot_area
     FROM JOIN_sanitation a
     LEFT JOIN pluto_landusearea b
@@ -204,13 +204,40 @@ JOIN_floodplain as (
     LEFT JOIN floodplain b
     ON a.borocd = b.borocd
 ),
+JOIN_floodplain_demo as (
+    SELECT
+        a.*,
+        b.fp_100_cost_burden,
+        b.fp_500_cost_burden,
+        b.fp_100_cost_burden_value,
+        b.fp_500_cost_burden_value,
+        b.fp_100_rent_burden,
+        b.fp_500_rent_burden,
+        b.fp_100_rent_burden_value,
+        b.fp_500_rent_burden_value,
+        b.fp_100_mhhi,
+        b.fp_500_mhhi,
+        b.fp_100_permortg,
+        b.fp_500_permortg,
+        b.fp_100_mortg_value,
+        b.fp_500_mortg_value,
+        b.fp_100_ownerocc,
+        b.fp_500_ownerocc,
+        b.fp_100_ownerocc_value,
+        b.fp_500_ownerocc_value,
+        b.fp_100_pop,
+        b.fp_500_pop
+    FROM JOIN_floodplain a
+    LEFT JOIN floodplain_demo b
+    ON a.borocd = b.borocd
+),
 JOIN_geom as (
     SELECT
         a.*,
         b.acres,
         b.area_sqmi,
         b.wkb_geometry
-    FROM JOIN_floodplain a
+    FROM JOIN_floodplain_demo a
     LEFT JOIN cd_geo b
     ON a.borocd = b.borocd   
 ),
@@ -251,20 +278,45 @@ JOIN_dcp as (
     FROM JOIN_parks a
     LEFT JOIN cd_son b
     ON a.borocd = b.borocd
+),
+JOIN_tooltips as (
+    SELECT
+        a.*,
+        b.acs_tooltip,
+        b.acs_tooltip_2,
+        b.acs_tooltip_3
+    FROM JOIN_dcp a
+    LEFT JOIN cd_tooltips b
+    ON a.borocd = b.borocd
+),
+JOIN_poverty as (
+    SELECT
+        a.*,
+        b.poverty_rate,
+        b.moe_poverty_rate,
+        b.poverty_rate_boro,
+        b.poverty_rate_nyc
+    FROM JOIN_tooltips a 
+    LEFT JOIN poverty b 
+    ON a.borocd = b.borocd
 )
 
 SELECT 
     *,
     :'V_PLUTO' as v_pluto,
     :'V_ACS' as v_acs,
+    :'V_DECENNIAL' as v_decennial,
     :'V_FACDB' as v_facdb,
     :'V_CRIME' as v_crime,
     :'V_SANITATION' as v_sanitation,
     :'V_GEO' as v_geo,
-    :'V_PARKS' as v_parks
+    :'V_PARKS' as v_parks,
+    :'V_POVERTY' as v_poverty
 INTO combined
-FROM JOIN_dcp;
+FROM JOIN_poverty;
 
---ALTER TABLE combined
---DROP COLUMN pop_acs_boro,
---DROP COLUMN pop_acs_nyc;
+ALTER TABLE combined
+DROP COLUMN pop_acs_boro,
+DROP COLUMN pop_acs_nyc;
+
+--\COPY combined TO PSTDOUT DELIMITER ',' CSV HEADER;

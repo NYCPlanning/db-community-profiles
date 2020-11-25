@@ -1,0 +1,173 @@
+name: Build Community Profiles
+
+on:
+  repository_dispatch:
+    types: [build]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      RECIPE_ENGINE: ${{ secrets.RECIPE_ENGINE }}
+      EDM_DATA: ${{ secrets.EDM_DATA }}
+      API_TOKEN: ${{ secrets.API_TOKEN }}
+      BUILD_ENGINE: ${{ secrets.BUILD_ENGINE }}
+      CENSUS_API_KEY: ${{ secrets.BUILD_ENGINE }}
+      V_PLUTO: ${{ github.event.client_payload.V_PLUTO }}
+      V_ACS: ${{ github.event.client_payload.V_ACS }}
+      V_DECENNIAL: ${{ github.event.client_payload.V_DECENNIAL }}
+      V_FACDB: ${{ github.event.client_payload.V_FACDB }}
+      V_CRIME: ${{ github.event.client_payload.V_CRIME }}
+      V_SANITATION: ${{ github.event.client_payload.V_SANITATION }}
+      V_GEO: ${{ github.event.client_payload.V_GEO }}
+      V_PARKS: ${{ github.event.client_payload.V_PARKS }}
+      V_POVERTY: ${{ github.event.client_payload.V_POVERTY }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y postgresql-client-10
+        pip3 install git+https://github.com/NYCPlanning/db-factfinder.git
+
+    - name: Load CD boundary data
+      working-directory: cdprofiles_build
+      run: |
+        psql -q $RECIPE_ENGINE -v VERSION=$V_GEO -f sql/out_cd_geo.sql |
+        psql $BUILD_ENGINE -f sql/in_cd_geo.sql
+
+    - name: Load crime data
+      working-directory: cdprofiles_build
+      run: |
+        python3 python/out_crime.py |
+        psql $BUILD_ENGINE -f sql/in_crime.sql
+
+    - name: Load sanitation data
+      working-directory: cdprofiles_build
+      run: |
+        python3 python/out_sanitation.py |
+          psql $BUILD_ENGINE -v VERSION=$V_SANITATION -f sql/in_sanitation.sql
+
+    - name: Load poverty data
+      working-directory: cdprofiles_build
+      run: |
+        python3 python/out_poverty.py |
+          psql $BUILD_ENGINE -v VERSION=$V_POVERTY -f sql/in_poverty.sql
+    
+    - name: Load park access data
+      working-directory: cdprofiles_build
+      run: |
+        python3 python/out_parks.py |
+          psql $BUILD_ENGINE -f sql/in_parks.sql
+
+    - name: Load floodplain data
+      working-directory: cdprofiles_build
+      run: |
+        python3 python/out_floodplain_demo.py |
+          psql $BUILD_ENGINE -f sql/in_floodplain_demo.sql &
+        
+        psql -q $EDM_DATA -v VERSION=$V_PLUTO -f sql/out_floodplain.sql |
+          psql $BUILD_ENGINE -f sql/in_floodplain.sql
+    
+    - name: Load FacDB data
+      working-directory: cdprofiles_build
+      run: |
+        psql -q $EDM_DATA -v VERSION=$V_FACDB -f sql/out_facdb.sql | 
+        psql $BUILD_ENGINE -f sql/in_facdb.sql
+
+    - name: Load PLUTO data
+      working-directory: cdprofiles_build
+      run: |
+        psql -q $EDM_DATA -v VERSION=$V_PLUTO -f sql/out_pluto_landusecount.sql | 
+          psql $BUILD_ENGINE -f sql/in_pluto_landusecount.sql &
+  
+        psql -q $EDM_DATA -v VERSION=$V_PLUTO -f sql/out_pluto_landusearea.sql |
+          psql $BUILD_ENGINE -f sql/in_pluto_landusearea.sql
+
+    - name: Load ACS Data
+      working-directory: cdprofiles_build
+      run: |
+        python3 python/out_acs.py |
+          psql $BUILD_ENGINE -f sql/in_acs.sql
+
+    - name: Load titles, CB contact, SON, and tooltips
+      working-directory: cdprofiles_build
+      run: |
+          cat data/cd_titles.csv | psql $BUILD_ENGINE -c "
+          DROP TABLE IF EXISTS cd_titles;
+          CREATE TABLE cd_titles (
+              borocd text,
+              cd_full_title text,
+              cd_short_title text
+          ); 
+          COPY cd_titles FROM STDIN DELIMITER ',' CSV HEADER;
+          " &
+
+          cat data/cb_contact.csv | psql $BUILD_ENGINE -c "
+          DROP TABLE IF EXISTS cb_contact;
+          CREATE TABLE cb_contact (
+              borocd text,
+              cb_email text,
+              cb_website text
+          ); 
+          COPY cb_contact FROM STDIN DELIMITER ',' CSV HEADER;
+          " &
+
+          cat data/cd_son.csv | psql $BUILD_ENGINE -c "
+          DROP TABLE IF EXISTS cd_son;
+          CREATE TABLE cd_son (
+              borocd text,
+              neighborhoods text,
+              cd_son_fy2018 text,
+              son_issue_1 text,
+              son_issue_2 text,
+              son_issue_3 text
+          ); 
+          COPY cd_son FROM STDIN DELIMITER ',' CSV HEADER;
+          " &
+
+          cat data/cd_tooltips.csv | psql $BUILD_ENGINE -c "
+          DROP TABLE IF EXISTS cd_tooltips;
+          CREATE TABLE cd_tooltips (
+              acs_tooltip text,
+              acs_tooltip_2 text,
+              acs_tooltip_3 text,
+              borocd text
+          ); 
+          COPY cd_tooltips FROM STDIN DELIMITER ',' CSV HEADER;
+          "
+
+    - name: Combine all
+      working-directory: cdprofiles_build
+      run: 
+        psql -q $BUILD_ENGINE\
+          -v V_PLUTO=$V_PLUTO\
+          -v V_ACS=$V_ACS\
+          -v V_DECENNIAL=$V_DECENNIAL\
+          -v V_FACDB=$V_FACDB\
+          -v V_CRIME=$V_CRIME\
+          -v V_SANITATION=$V_SANITATION\
+          -v V_GEO=$V_GEO\
+          -v V_PARKS=$V_PARKS\
+          -v V_POVERTY=$V_POVERTY\
+          -f sql/combine.sql
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: output
+        path: output/cd_profiles.csv
+
+    - name: Commit files
+      run: |
+          DATE=$(date)
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git pull
+          git add output/cd_profiles.csv
+          git commit -m "🎉 Rerun and Update Community Profiles Data $DATE" -a
+          
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}

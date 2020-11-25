@@ -27,7 +27,17 @@ docker run --rm\
         python3 out_sanitation.py" |  
     psql $BUILD_ENGINE -v VERSION=$V_SANITATION -f sql/in_sanitation.sql
 
-display "loading look-up tables: puma, cd titles, cb contact, cd to bctcb2010, son"
+display "loading poverty data"
+docker run --rm\
+    -v $(pwd):/src\
+    -w /src/python\
+    -e V_POVERTY=$V_POVERTY\
+    -e BUILD_ENGINE=$BUILD_ENGINE\
+    nycplanning/cook:latest bash -c "
+        python3 out_poverty.py" |  
+    psql $BUILD_ENGINE -v VERSION=$V_POVERTY -f sql/in_poverty.sql
+
+display "loading look-up tables: puma, cd titles, cb contact, cd to bctcb2010, son, tooltips"
 
 cat data/cd_puma.csv | psql $BUILD_ENGINE -c "
     DROP TABLE IF EXISTS cd_puma;
@@ -81,18 +91,26 @@ cat data/cd_son.csv | psql $BUILD_ENGINE -c "
     COPY cd_son FROM STDIN DELIMITER ',' CSV HEADER;
 "
 
-display "loading 2010 decennial population data"
-psql -q $EDM_DATA -v VERSION=$V_FACDB -f sql/out_cb_pop.sql | 
-    psql $BUILD_ENGINE -f sql/in_cb_pop.sql 
+cat data/cd_tooltips.csv | psql $BUILD_ENGINE -c "
+    DROP TABLE IF EXISTS cd_tooltips;
+    CREATE TABLE cd_tooltips (
+        acs_tooltip text,
+        acs_tooltip_2 text,
+        acs_tooltip_3 text,
+        borocd text
+    ); 
+    COPY cd_tooltips FROM STDIN DELIMITER ',' CSV HEADER;
+"
 
 display "loading park access data"
 docker run --rm\
     -v $(pwd):/src\
     -w /src/python\
+    -e CENSUS_API_KEY=$CENSUS_API_KEY\
     -e V_PARKS=$V_PARKS\
+    -e V_DECENNIAL=$V_DECENNIAL\
     -e BUILD_ENGINE=$BUILD_ENGINE\
-    nycplanning/cook:latest bash -c "pip3 install -q geopandas;
-        python3 out_parks.py" |  
+    nycplanning/cook:latest bash -c "python3 out_parks.py" |  
     psql $BUILD_ENGINE -f sql/in_parks.sql
 
 display "loading FacDB data"
@@ -118,11 +136,13 @@ display "combine all"
 psql -q $BUILD_ENGINE\
     -v V_PLUTO=$V_PLUTO\
     -v V_ACS=$V_ACS\
+    -v V_DECENNIAL=$V_DECENNIAL\
     -v V_FACDB=$V_FACDB\
     -v V_CRIME=$V_CRIME\
     -v V_SANITATION=$V_SANITATION\
     -v V_GEO=$V_GEO\
     -v V_PARKS=$V_PARKS\
+    -v V_POVERTY=$V_POVERTY\
     -f sql/combine.sql
 
 display "splitting tables for downloads"
