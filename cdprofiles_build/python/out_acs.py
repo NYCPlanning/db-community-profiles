@@ -12,15 +12,7 @@ dec_variable_mapping = [
 
 # Note: lgoenlep1 got phased out of the ACS. The following have been removed from acs_variable_mapping:
 '''
-{'pff_variable': 'lgoenlep1',
-  'geotype': 'borough',
-  'column_mapping': {'z': 'moe_lep_rate_boro', 'p': 'lep_rate_boro'}},
- {'pff_variable': 'lgoenlep1',
-  'geotype': 'cd',
-  'column_mapping': {'z': 'moe_lep_rate', 'p': 'lep_rate'}},
- {'pff_variable': 'lgoenlep1',
-  'geotype': 'city',
-  'column_mapping': {'z': 'moe_lep_rate_nyc', 'p': 'lep_rate_nyc'}},
+
 '''
 
 acs_variable_mapping = [
@@ -119,6 +111,15 @@ acs_variable_mapping = [
  {'pff_variable': 'hsp1',
   'geotype': 'cd',
   'column_mapping': {'p': 'pct_hispanic'}},
+ {'pff_variable': 'lgoenlep1',
+  'geotype': 'borough',
+  'column_mapping': {'z': 'moe_lep_rate_boro', 'p': 'lep_rate_boro'}},
+ {'pff_variable': 'lgoenlep1',
+  'geotype': 'cd',
+  'column_mapping': {'z': 'moe_lep_rate', 'p': 'lep_rate'}},
+ {'pff_variable': 'lgoenlep1',
+  'geotype': 'city',
+  'column_mapping': {'z': 'moe_lep_rate_nyc', 'p': 'lep_rate_nyc'}},
  {'pff_variable': 'mntrvtm',
   'geotype': 'borough',
   'column_mapping': {'m': 'moe_mean_commute_boro', 'e': 'mean_commute_boro'}},
