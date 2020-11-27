@@ -28,7 +28,7 @@ jobs:
       run: |
         sudo apt update
         sudo apt install -y postgresql-client-10
-        pip3 install git+https://github.com/NYCPlanning/db-factfinder.git
+        pip3 install setuptools git+https://github.com/NYCPlanning/db-factfinder.git
 
     - name: Load CD boundary data
       working-directory: cdprofiles_build
