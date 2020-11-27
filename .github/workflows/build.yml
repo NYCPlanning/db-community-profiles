@@ -183,7 +183,18 @@ jobs:
         psql $BUILD_ENGINE -c "\COPY (
             SELECT * FROM city_cd_attributes"
           ) TO stdout DELIMITER ',' CSV HEADER;" > output/city_cd_attributes.csv
-
+        echo "Input, Version" > output/versions.csv
+        psql $EDM_DATA -c "\copy (
+              SELECT 'dcp_pluto' as schema_name, v as version 
+              from dcp_pluto.latest limit 1
+            ) TO stdout DELIMITER ',' CSV;" >> output/versions.csv
+        echo "acs, $V_ACS" >> output/versions.csv
+        echo "decennial, $V_DECENNIAL" >> output/versions.csv
+        psql $EDM_DATA -c "\copy (
+              SELECT 'facilities' as schema_name, v as version 
+              from facilities.latest limit 1
+            ) TO stdout DELIMITER ',' CSV;" >> output/versions.csv
+        
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
       working-directory: cdprofiles_build
