@@ -25,7 +25,25 @@ CREATE TEMP TABLE FLOODPLAIN as (
             )
             AND landuse = '09' 
             THEN ROUND(lotarea/27878400, 3)
-            ELSE 0 END) as fp_500_openspace
+            ELSE 0 END) as fp_500_openspace,
+        sum(CASE WHEN 
+            (select true in (
+                select id IS NOT NULL 
+                FROM fema_firms_500yr.latest b
+                where ST_Intersects(geom,b.wkb_geometry)
+                )
+            )
+            THEN numbldgs
+            ELSE 0 END) as fp_500_bldg,
+        sum(CASE WHEN 
+            (select true in (
+                select id IS NOT NULL 
+                FROM fema_firms_500yr.latest b
+                where ST_Intersects(geom,b.wkb_geometry)
+                )
+            )
+            THEN unitsres
+            ELSE 0 END) as fp_500_resunits
     FROM dcp_pluto.:"VERSION" a
     GROUP BY cd
     ORDER BY cd
