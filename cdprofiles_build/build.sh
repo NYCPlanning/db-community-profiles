@@ -102,18 +102,15 @@ cat data/cd_tooltips.csv | psql $BUILD_ENGINE -c "
     COPY cd_tooltips FROM STDIN DELIMITER ',' CSV HEADER;
 "
 
-display "loading 2010 decennial population data"
-psql -q $EDM_DATA -v VERSION=$V_FACDB -f sql/out_cb_pop.sql | 
-    psql $BUILD_ENGINE -f sql/in_cb_pop.sql 
-
 display "loading park access data"
 docker run --rm\
     -v $(pwd):/src\
     -w /src/python\
+    -e CENSUS_API_KEY=$CENSUS_API_KEY\
     -e V_PARKS=$V_PARKS\
+    -e V_DECENNIAL=$V_DECENNIAL\
     -e BUILD_ENGINE=$BUILD_ENGINE\
-    nycplanning/cook:latest bash -c "pip3 install -q geopandas;
-        python3 out_parks.py" |  
+    nycplanning/cook:latest bash -c "python3 out_parks.py" |  
     psql $BUILD_ENGINE -f sql/in_parks.sql
 
 display "loading FacDB data"
@@ -139,6 +136,7 @@ display "combine all"
 psql -q $BUILD_ENGINE\
     -v V_PLUTO=$V_PLUTO\
     -v V_ACS=$V_ACS\
+    -v V_DECENNIAL=$V_DECENNIAL\
     -v V_FACDB=$V_FACDB\
     -v V_CRIME=$V_CRIME\
     -v V_SANITATION=$V_SANITATION\
