@@ -2,7 +2,7 @@ name: Build Community Profiles
 
 on:
   repository_dispatch:
-    types: [build]
+    types: [bash-build]
 
 jobs:
   test:
