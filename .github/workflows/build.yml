@@ -24,62 +24,73 @@ jobs:
         sudo apt install -y postgresql-client-10
         pip3 install git+https://github.com/NYCPlanning/db-factfinder.git
 
-    - name: Load CD boundary data
+    - name: Export versions
       working-directory: cdprofiles_build
       run: |
         echo "V_GEO=$(psql $RECIPE_ENGINE -c "\copy (
           SELECT v as version 
           from dcp_cdboundaries.latest limit 1
           ) TO stdout DELIMITER ',' CSV;")" >> $GITHUB_ENV
+        echo "V_CRIME=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+        echo "V_SANITATION=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+        echo  "V_POVERTY=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+        echo "V_PARKS=$(psql $RECIPE_ENGINE -c "\copy (
+          SELECT v as version 
+          from dpr_access_zone.latest limit 1
+          ) TO stdout DELIMITER ',' CSV;")" >> $GITHUB_ENV
+        echo "V_FLOODPLAIN=$(psql $RECIPE_ENGINE -c "\copy (
+          SELECT v as version 
+          from fema_pfirms2015_100yr.latest limit 1
+          ) TO stdout DELIMITER ',' CSV;")" >> $GITHUB_ENV
+        echo "V_FACDB=$(psql $EDM_DATA -c "\copy (
+          SELECT v as version 
+          from facilities.latest limit 1
+          ) TO stdout DELIMITER ',' CSV;")" >> $GITHUB_ENV
         echo "Input, Version" > output/versions.csv
         echo "dcp_cdboundaries, $V_GEO" >> output/versions.csv
-        psql -q $RECIPE_ENGINE -v VERSION=$V_GEO -f sql/out_cd_geo.sql |
+        echo "crime, $V_CRIME" >> output/versions.csv
+        echo "sanitation, $V_SANITATION" >> output/versions.csv
+        echo "poverty, $V_POVERTY" >> output/versions.csv
+        echo "dpr_access_zone, $V_PARKS" >> output/versions.csv
+        echo "decennial, $V_DECENNIAL" >> output/versions.csv
+        echo "fema_pfirms2015_100yr, $V_FLOODPLAIN" >> output/versions.csv
+        echo "facilities, $V_FACDB" >> output/versions.csv
+        echo "dcp_pluto, $V_PLUTO" >> output/versions.csv
+        echo "acs, $V_ACS" >> output/versions.csv
+
+    - name: Load CD boundary data
+      working-directory: cdprofiles_build
+      run: |
+        psql -q $RECIPE_ENGINE -f sql/out_cd_geo.sql |
         psql $BUILD_ENGINE -f sql/in_cd_geo.sql
 
     - name: Load crime data
       working-directory: cdprofiles_build
       run: |
-        echo "V_CRIME=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
-        echo "crime, $V_CRIME" >> output/versions.csv
         python3 python/out_crime.py |
         psql $BUILD_ENGINE -f sql/in_crime.sql
 
     - name: Load sanitation data
       working-directory: cdprofiles_build
       run: |
-        echo "V_SANITATION=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
-        echo "sanitation, $V_SANITATION" >> output/versions.csv
         python3 python/out_sanitation.py |
-          psql $BUILD_ENGINE -v VERSION=$V_SANITATION -f sql/in_sanitation.sql
+          psql $BUILD_ENGINE -f sql/in_sanitation.sql
 
     - name: Load poverty data
       working-directory: cdprofiles_build
       run: |
-        echo  "V_POVERTY=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
-        echo "poverty, $V_POVERTY" >> output/versions.csv
         python3 python/out_poverty.py |
-          psql $BUILD_ENGINE -v VERSION=$V_POVERTY -f sql/in_poverty.sql
+          psql $BUILD_ENGINE -f sql/in_poverty.sql
     
     - name: Load park access data
       working-directory: cdprofiles_build
       run: |
-        echo "V_PARKS=$(psql $RECIPE_ENGINE -c "\copy (
-          SELECT v as version 
-          from dpr_access_zone.latest limit 1
-          ) TO stdout DELIMITER ',' CSV;")" >> $GITHUB_ENV
-        echo "dpr_access_zone, $V_PARKS" >> output/versions.csv
-        echo "decennial, $V_DECENNIAL" >> output/versions.csv
         python3 python/out_parks.py |
           psql $BUILD_ENGINE -f sql/in_parks.sql
 
     - name: Load floodplain data
       working-directory: cdprofiles_build
       run: |
-        echo "V_FLOODPLAIN=$(psql $RECIPE_ENGINE -c "\copy (
-          SELECT v as version 
-          from fema_pfirms2015_100yr.latest limit 1
-          ) TO stdout DELIMITER ',' CSV;")" >> $GITHUB_ENV
-        echo "fema_pfirms2015_100yr, $V_FLOODPLAIN" >> output/versions.csv
         python3 python/out_floodplain_demo.py |
           psql $BUILD_ENGINE -f sql/in_floodplain_demo.sql &
         
@@ -89,18 +100,12 @@ jobs:
     - name: Load FacDB data
       working-directory: cdprofiles_build
       run: |
-        echo "V_FACDB=$(psql $EDM_DATA -c "\copy (
-          SELECT v as version 
-          from facilities.latest limit 1
-          ) TO stdout DELIMITER ',' CSV;")" >> $GITHUB_ENV
-        echo "facilities, $V_FACDB" >> output/versions.csv
-        psql -q $EDM_DATA -v VERSION=$V_FACDB -f sql/out_facdb.sql | 
+        psql -q $EDM_DATA -f sql/out_facdb.sql | 
         psql $BUILD_ENGINE -f sql/in_facdb.sql
 
     - name: Load PLUTO data
       working-directory: cdprofiles_build
       run: |
-        echo "dcp_pluto, $V_PLUTO" >> output/versions.csv
         psql -q $EDM_DATA -v VERSION=$V_PLUTO -f sql/out_pluto_landusecount.sql | 
           psql $BUILD_ENGINE -f sql/in_pluto_landusecount.sql &
   
@@ -110,7 +115,6 @@ jobs:
     - name: Load ACS Data
       working-directory: cdprofiles_build
       run: |
-        echo "acs, $V_ACS" >> output/versions.csv
         python3 python/out_acs.py |
           psql $BUILD_ENGINE -f sql/in_acs.sql
 
