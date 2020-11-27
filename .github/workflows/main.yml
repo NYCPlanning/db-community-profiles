@@ -1,4 +1,4 @@
-name: Build Community Profiles
+name: Build Community Profiles (old)
 
 on:
   repository_dispatch:
