@@ -21,7 +21,7 @@ SELECT
     b.bctcb2010,
     b.cd,
     b.pop_2010,
-    SUM(CASE WHEN ST_Intersects(a.geom, b.geom) THEN ) ELSE 0 END) as intersect_area,
+    SUM(CASE WHEN ST_Intersects(a.geom, b.geom) THEN ST_Area(ST_Intersection(a.geom, b.geom)) ELSE 0 END) as intersect_area,
     b.area
 INTO _PARKS
 FROM parks_subdivided a, cd_blocks b

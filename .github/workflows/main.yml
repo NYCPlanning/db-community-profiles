@@ -1,8 +1,8 @@
-name: Build Community Profiles
+name: Build Community Profiles (old)
 
 on:
   repository_dispatch:
-    types: [build]
+    types: [bash-build]
 
 jobs:
   test:
