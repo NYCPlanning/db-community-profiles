@@ -88,7 +88,8 @@ CREATE TABLE _acs (
     under18_rate double precision,
     moe_under18_rate_nyc double precision,
     under18_rate_nyc double precision,
-    pop_dec double precision
+    pop_2010 double precision,
+    pop_2000 double precision
 );
 
 \COPY _acs FROM PSTDIN DELIMITER ',' CSV HEADER;
@@ -104,6 +105,7 @@ SELECT
             pct_white_nh)
         )::numeric, 
         2
-    ) as pct_other_nh
+    ) as pct_other_nh,
+    (pop_2010 - pop_2000) as pop_change_00_10
 INTO acs
 FROM _acs;

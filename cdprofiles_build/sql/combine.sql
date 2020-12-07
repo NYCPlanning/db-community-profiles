@@ -98,7 +98,10 @@ JOIN_ACS AS (
         a.pct_bach_deg_boro,
         a.moe_bach_deg,
         a.pct_bach_deg,
-        a.pct_other_nh
+        a.pct_other_nh,
+        a.pop_2010,
+        a.pop_2000,
+        a.pop_change_00_10
     FROM cd_puma b
     LEFT JOIN acs a
     ON a.borocd = b.borocd
