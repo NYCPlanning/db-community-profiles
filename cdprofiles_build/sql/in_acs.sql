@@ -97,6 +97,13 @@ CREATE TABLE _acs (
 DROP TABLE IF EXISTS acs;
 SELECT
     *,
+    (CASE 
+        WHEN LEFT(borocd, 1) = '1' THEN 'Manhattan'
+        WHEN LEFT(borocd, 1) = '2' THEN 'Bronx'
+        WHEN LEFT(borocd, 1) = '3' THEN 'Brooklyn'
+        WHEN LEFT(borocd, 1) = '4' THEN 'Queens'
+        WHEN LEFT(borocd, 1) = '5' THEN 'Staten Island'
+    END) as borough,
     round(
         (100 - (
             pct_hispanic+
