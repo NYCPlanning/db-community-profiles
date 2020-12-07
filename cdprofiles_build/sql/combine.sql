@@ -262,7 +262,7 @@ JOIN_cb_contact as (
 JOIN_parks as (
     SELECT
         a.*,
-        ROUND(b.pct_served_parks::numeric, 2)*100 as pct_served_parks
+        b.pct_served_parks
     FROM JOIN_cb_contact a
     LEFT JOIN parks b
     ON a.borocd = b.borocd
