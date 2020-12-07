@@ -9,10 +9,10 @@ decennial = Pff(api_key=os.environ['CENSUS_API_KEY'], year=int(os.environ['V_DEC
 prev_decennial = Pff(api_key=os.environ['CENSUS_API_KEY'], year=int(os.environ['V_DECENNIAL'])-10)
 
 dec_variable_mapping = [
-    {'pff_variable': 'popdec', 'geotype': 'cd', 'column_mapping': {'e': 'pop_2010'}},
+    {'pff_variable': 'decennial_pop', 'geotype': 'cd', 'column_mapping': {'e': 'pop_2010'}},
     ]
 prev_dec_variable_mapping = [
-    {'pff_variable': 'popdec', 'geotype': 'cd', 'column_mapping': {'e': 'pop_2000'}},
+    {'pff_variable': 'decennial_pop', 'geotype': 'cd', 'column_mapping': {'e': 'pop_2000'}},
     ]
 acs_variable_mapping = [
  {'pff_variable': 'wtnh',
