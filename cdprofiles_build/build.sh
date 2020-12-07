@@ -42,7 +42,7 @@ docker run --rm\
     -e CENSUS_API_KEY=$CENSUS_API_KEY\
     -e V_DECENNIAL=$V_DECENNIAL\
     -e BUILD_ENGINE=$BUILD_ENGINE\
-    nycplanning/cook:latest bash -c "pip3 install -q pff-factfinder;
+    python:3.7-slim bash -c "pip3 install -q pff-factfinder;
                                         python3 out_parks.py" |  
     psql $BUILD_ENGINE -f sql/in_parks.sql
 
@@ -54,7 +54,7 @@ docker run --rm\
     -e V_DECENNIAL=$V_DECENNIAL\
     -e V_ACS=$V_ACS\
     -e BUILD_ENGINE=$BUILD_ENGINE\
-    nycplanning/cook:latest bash -c "pip3 install -q pff-factfinder;
+    python:3.7-slim bash -c "pip3 install -q pff-factfinder;
                                     python3 out_acs.py" |  
     psql $BUILD_ENGINE -f sql/in_acs.sql
 
@@ -66,7 +66,7 @@ docker run --rm\
     -e V_DECENNIAL=$V_DECENNIAL\
     -e V_ACS=$V_ACS\
     -e BUILD_ENGINE=$BUILD_ENGINE\
-    nycplanning/cook:latest bash -c "pip3 install -q pff-factfinder;
+    python:3.7-slim bash -c "pip3 install -q pff-factfinder;
                                     python3 out_floodplain_demo.py" |  
     psql $BUILD_ENGINE -f sql/in_floodplain_demo.sql
 
