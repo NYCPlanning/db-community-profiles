@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS floodplain_demo;
-CREATE TABLE facdb (
+CREATE TABLE floodplain_demo (
     borocd text,
     fp_100_cost_burden numeric,
     fp_500_cost_burden numeric,
