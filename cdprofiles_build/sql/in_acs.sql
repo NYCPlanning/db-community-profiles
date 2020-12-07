@@ -1,7 +1,8 @@
 DROP TABLE IF EXISTS _acs;
 CREATE TABLE _acs (
     borocd text,
-    pct_ double precision,
+    pct_white_nh double precision,
+    pct_asian_nh double precision,
     pct_black_nh double precision,
     moe_unemployment_boro double precision,
     unemployment_boro double precision,
@@ -87,7 +88,6 @@ CREATE TABLE _acs (
     under18_rate double precision,
     moe_under18_rate_nyc double precision,
     under18_rate_nyc double precision,
-    pct_white_nh double precision,
     pop_dec double precision
 );
 
