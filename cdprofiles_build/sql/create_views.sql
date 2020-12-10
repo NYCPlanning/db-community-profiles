@@ -85,7 +85,6 @@ CREATE VIEW cd_administrative AS (
         borocd as cd_number,
         borough,
         neighborhoods as cd_neighborhoods,
-        puma as cd_puma,
         cb_email,
         cb_website,
         son_issue_1,
