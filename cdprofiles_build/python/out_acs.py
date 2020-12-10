@@ -236,5 +236,5 @@ for i in prev_dec_variable_mapping:
 dff = reduce(lambda left,right: pd.merge(left,right, on=['census_geoid'],
                                             how='outer'), dfs)
 
-dff.to_csv('output/acs_output.csv', index=False)
+#dff.to_csv('output/acs_output.csv', index=False)
 dff.to_csv(sys.stdout, index=False)
