@@ -7,8 +7,8 @@ acs = Pff(api_key=os.environ['CENSUS_API_KEY'], year=int(os.environ['V_ACS'].spl
 decennial = Pff(api_key=os.environ['CENSUS_API_KEY'], year=int(os.environ['V_DECENNIAL']))
 
 dec_variable_mapping = [
-    {'pff_variable': 'pop2010', 'geotype': 'cd_fp_100', 'column_mapping': {'e': 'fp_100_pop'}},
-    {'pff_variable': 'pop2010', 'geotype': 'cd_fp_500', 'column_mapping': {'e': 'fp_500_pop'}},
+    {'pff_variable': 'decennial_pop', 'geotype': 'cd_fp_100', 'column_mapping': {'e': 'fp_100_pop'}},
+    {'pff_variable': 'decennial_pop', 'geotype': 'cd_fp_500', 'column_mapping': {'e': 'fp_500_pop'}},
     ]
 
 acs_variable_mapping = [
