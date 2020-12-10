@@ -134,6 +134,7 @@ cd_boro AS (
     SELECT
         a.city,
         a.borocd, 
+        a.borough,
         a.pct_white_nh,
         a.pct_asian_nh,
         a.pct_black_nh,
