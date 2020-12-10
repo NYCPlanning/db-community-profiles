@@ -33,7 +33,7 @@ jobs:
           SELECT v as version 
           from dcp_cdboundaries.latest limit 1
           ) TO stdout DELIMITER ',' CSV;")" >> $GITHUB_ENV
-        echo "V_SANITATION=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+        echo "V_SANITATION=$(date +'%Y/%m')" >> $GITHUB_ENV
         echo  "V_POVERTY=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
         echo "V_PARKS=$(psql $RECIPE_ENGINE -c "\copy (
           SELECT v as version 
