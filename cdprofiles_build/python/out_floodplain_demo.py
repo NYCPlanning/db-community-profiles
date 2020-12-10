@@ -1,6 +1,7 @@
 from functools import reduce
 import pandas as pd
 import os
+import sys
 from factfinder.main import Pff
 
 acs = Pff(api_key=os.environ['CENSUS_API_KEY'], year=int(os.environ['V_ACS'].split('-')[1]))
@@ -51,5 +52,5 @@ for i in dec_variable_mapping:
 dff = reduce(lambda left,right: pd.merge(left,right, on=['census_geoid'],
                                             how='outer'), dfs)
 
-dff.to_csv('output/fp_output.csv', index=False)
+#dff.to_csv('output/fp_output.csv', index=False)
 dff.to_csv(sys.stdout, index=False)
