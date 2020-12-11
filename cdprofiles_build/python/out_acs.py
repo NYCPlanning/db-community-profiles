@@ -1,24 +1,26 @@
 from functools import reduce
 import pandas as pd
 import os
+import sys
 from factfinder.main import Pff
 
 acs = Pff(api_key=os.environ['CENSUS_API_KEY'], year=int(os.environ['V_ACS'].split('-')[1]))
 decennial = Pff(api_key=os.environ['CENSUS_API_KEY'], year=int(os.environ['V_DECENNIAL']))
+prev_decennial = Pff(api_key=os.environ['CENSUS_API_KEY'], year=int(os.environ['V_DECENNIAL'])-10)
 
 dec_variable_mapping = [
-    {'pff_variable': 'pop2010', 'geotype': 'cd', 'column_mapping': {'e': 'pop_dec'}},
+    {'pff_variable': 'decennial_pop', 'geotype': 'cd', 'column_mapping': {'e': 'pop_2010'}},
     ]
-
-# Note: lgoenlep1 got phased out of the ACS. The following have been removed from acs_variable_mapping:
-'''
-
-'''
-
+prev_dec_variable_mapping = [
+    {'pff_variable': 'decennial_pop', 'geotype': 'cd', 'column_mapping': {'e': 'pop_2000'}},
+    ]
 acs_variable_mapping = [
+ {'pff_variable': 'wtnh',
+  'geotype': 'cd',
+  'column_mapping': {'p': 'pct_white_nh'}},
  {'pff_variable': 'asnnh', 
   'geotype': 'cd', 
-  'column_mapping': {'p': 'pct_'}},
+  'column_mapping': {'p': 'pct_asian_nh'}},
  {'pff_variable': 'blnh',
   'geotype': 'cd',
   'column_mapping': {'p': 'pct_black_nh'}},
@@ -209,10 +211,7 @@ acs_variable_mapping = [
   'column_mapping': {'z': 'moe_under18_rate', 'p': 'under18_rate'}},
  {'pff_variable': 'popu181',
   'geotype': 'city',
-  'column_mapping': {'z': 'moe_under18_rate_nyc', 'p': 'under18_rate_nyc'}},
- {'pff_variable': 'wtnh',
-  'geotype': 'cd',
-  'column_mapping': {'p': 'pct_white_nh'}}]
+  'column_mapping': {'z': 'moe_under18_rate_nyc', 'p': 'under18_rate_nyc'}}]
 
 def calculate(inputs, pff):
     pff_variable=inputs['pff_variable']
@@ -229,9 +228,13 @@ for i in acs_variable_mapping:
 for i in dec_variable_mapping:
     df = calculate(i, decennial)
     dfs.append(df)
-
+'''
+for i in prev_dec_variable_mapping:
+    df = calculate(i, prev_decennial)
+    dfs.append(df)
+'''
 dff = reduce(lambda left,right: pd.merge(left,right, on=['census_geoid'],
                                             how='outer'), dfs)
 
-dff.to_csv('output/acs_output.csv', index=False)
+#dff.to_csv('output/acs_output.csv', index=False)
 dff.to_csv(sys.stdout, index=False)
