@@ -92,13 +92,15 @@ JOIN_floodplain as (
     SELECT
         a.*,
         b.fp_100_area,
-        b.fp_100_bldg,
-        b.cd_tot_bldgs,
-        b.fp_100_resunits,
-        b.cd_tot_resunits,
-        b.fp_100_openspace,
         b.fp_500_area,
-        b.fp_500_openspace
+        b.fp_100_bldg,
+        b.fp_500_bldg,
+        b.fp_100_resunits,
+        b.fp_500_resunits,
+        b.fp_100_openspace,
+        b.fp_500_openspace,
+        b.cd_tot_bldgs,
+        b.cd_tot_resunits
     FROM JOIN_facdb a
     LEFT JOIN floodplain b
     ON a.borocd = b.borocd
