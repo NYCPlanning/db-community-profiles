@@ -13,7 +13,8 @@ docker run --rm\
     -e API_TOKEN=$API_TOKEN\
     -e BUILD_ENGINE=$BUILD_ENGINE\
     -e V_CRIME=$V_CRIME\
-    nycplanning/cook:latest bash -c "
+    python:3.7-slim bash -c "
+        pip3 install -q pff-factfinder;
         python3 out_crime.py" |  
     psql $BUILD_ENGINE -f sql/in_crime.sql
 
@@ -23,7 +24,8 @@ docker run --rm\
     -w /src/python\
     -e BUILD_ENGINE=$BUILD_ENGINE\
     -e V_SANITATION=$V_SANITATION\
-    nycplanning/cook:latest bash -c "
+    python:3.7-slim bash -c "
+        pip3 install -q pff-factfinder;
         python3 out_sanitation.py" |  
     psql $BUILD_ENGINE -v VERSION=$V_SANITATION -f sql/in_sanitation.sql
 
@@ -32,7 +34,8 @@ docker run --rm\
     -v $(pwd):/src\
     -w /src/python\
     -e BUILD_ENGINE=$BUILD_ENGINE\
-    nycplanning/cook:latest bash -c "
+    python:3.7-slim bash -c "
+        pip3 install -q pff-factfinder;
         python3 out_poverty.py" |  
     psql $BUILD_ENGINE -f sql/in_poverty.sql
 
