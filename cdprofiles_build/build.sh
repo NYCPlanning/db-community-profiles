@@ -22,9 +22,10 @@ docker run --rm\
     -v $(pwd):/src\
     -w /src/python\
     -e BUILD_ENGINE=$BUILD_ENGINE\
+    -e V_SANITATION=$V_SANITATION\
     nycplanning/cook:latest bash -c "
         python3 out_sanitation.py" |  
-    psql $BUILD_ENGINE -f sql/in_sanitation.sql
+    psql $BUILD_ENGINE -v VERSION=$V_SANITATION -f sql/in_sanitation.sql
 
 display "Loading poverty data"
 docker run --rm\

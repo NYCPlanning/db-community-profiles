@@ -6,8 +6,10 @@ JOIN_CRIME AS (
         b.crime_count,
         b.crime_count_boro,
         b.crime_count_nyc,
-        round(b.crime_count*1000/a.pop_acs::numeric,1) as crime_per_1000,
-        round(b.crime_count_boro*1000/a.pop_acs_boro::numeric,1) as crime_per_1000_boro,
+        (CASE WHEN a.pop_acs IS NOT NULL AND a.pop_acs > 0
+            THEN round(b.crime_count*1000/a.pop_acs::numeric,1)
+            ELSE NULL END) as crime_per_1000,
+        round(b.crime_count_boro*1000/a.pop_acs_boro::numeric,1)as crime_per_1000_boro,
         round(b.crime_count_nyc*1000/a.pop_acs_nyc::numeric,1) as crime_per_1000_nyc
     FROM acs a
     LEFT JOIN crime b

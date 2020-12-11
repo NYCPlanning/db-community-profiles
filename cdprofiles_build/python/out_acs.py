@@ -228,13 +228,13 @@ for i in acs_variable_mapping:
 for i in dec_variable_mapping:
     df = calculate(i, decennial)
     dfs.append(df)
-
+'''
 for i in prev_dec_variable_mapping:
     df = calculate(i, prev_decennial)
     dfs.append(df)
-
+'''
 dff = reduce(lambda left,right: pd.merge(left,right, on=['census_geoid'],
                                             how='outer'), dfs)
 
-dff.to_csv('output/acs_output.csv', index=False)
+#dff.to_csv('output/acs_output.csv', index=False)
 dff.to_csv(sys.stdout, index=False)
