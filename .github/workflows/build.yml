@@ -65,10 +65,9 @@ jobs:
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
-      working-directory: cdprofiles_build
       with:
         name: output
-        path: output/
+        path: cdprofiles_build/output/
 
     - name: Commit files
       run: |
