@@ -12,7 +12,7 @@ jobs:
       EDM_DATA: ${{ secrets.EDM_DATA }}
       API_TOKEN: ${{ secrets.API_TOKEN }}
       BUILD_ENGINE: ${{ secrets.BUILD_ENGINE }}
-      CENSUS_API_KEY: ${{ secrets.BUILD_ENGINE }}
+      CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
       V_ACS: ${{ github.event.client_payload.V_ACS }}
       V_DECENNIAL: ${{ github.event.client_payload.V_DECENNIAL }}
       V_PLUTO: ${{ github.event.client_payload.V_PLUTO }}
