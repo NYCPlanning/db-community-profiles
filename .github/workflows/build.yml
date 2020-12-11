@@ -29,6 +29,7 @@ jobs:
     - name: Export versions
       working-directory: cdprofiles_build
       run: |
+        mkdir -p output
         echo "V_GEO=$(psql $RECIPE_ENGINE -c "\copy (
           SELECT v as version 
           from dcp_cdboundaries.latest limit 1
