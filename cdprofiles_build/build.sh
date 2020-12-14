@@ -77,7 +77,7 @@ psql -q $EDM_DATA -v VERSION=$V_PLUTO -f sql/out_floodplain.sql |
           psql $BUILD_ENGINE -f sql/in_floodplain.sql &
 
 display "Loading FacDB data"
-psql -q $EDM_DATA -f sql/out_facdb.sql | 
+psql -q $EDM_DATA -v VERSION=$V_FACDB -f sql/out_facdb.sql | 
     psql $BUILD_ENGINE -f sql/in_facdb.sql &
 
 display "Loading PLUTO data"
@@ -197,3 +197,16 @@ psql $BUILD_ENGINE -c "\COPY (
 psql $BUILD_ENGINE -c "\COPY (
     SELECT * FROM city_cd_attributes
     ) TO stdout DELIMITER ',' CSV HEADER;" > output/city_cd_attributes.csv
+
+display "Export versions to csv"
+echo "source, version" > output/versions.csv
+echo "dcp_cdboundaries, $V_GEO" >> output/versions.csv
+echo "crime, $V_CRIME" >> output/versions.csv
+echo "sanitation, $V_SANITATION" >> output/versions.csv
+echo "poverty, $V_POVERTY" >> output/versions.csv
+echo "dpr_access_zone, $V_PARKS" >> output/versions.csv
+echo "decennial, $V_DECENNIAL" >> output/versions.csv
+echo "fema_pfirms2015_100yr, $V_FLOODPLAIN" >> output/versions.csv
+echo "facilities, $V_FACDB" >> output/versions.csv
+echo "dcp_pluto, $V_PLUTO" >> output/versions.csv
+echo "acs, $V_ACS" >> output/versions.csv
