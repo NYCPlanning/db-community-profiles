@@ -28,9 +28,9 @@ JOIN_CRIME AS (
 JOIN_sanitation AS(
     SELECT
         a.*,
-        b.pct_clean_strts,
-        b.pct_clean_strts_boro,
-        b.pct_clean_strts_nyc
+        ROUND(b.pct_clean_strts::numeric, 1) as pct_clean_strts,
+        ROUND(b.pct_clean_strts_boro::numeric, 1) as pct_clean_strts_boro,
+        ROUND(b.pct_clean_strts_nyc::numeric, 1) as pct_clean_strts_nyc
     FROM JOIN_CRIME a
     LEFT JOIN sanitation b
     ON a.borocd = b.borocd
