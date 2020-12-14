@@ -23,8 +23,6 @@ jobs:
       run: |
         sudo apt update
         sudo apt install -y postgresql-client-10
-        pip3 install setuptools 
-        pip3 install git+https://github.com/NYCPlanning/db-factfinder.git
 
     - name: Export versions
       working-directory: cdprofiles_build
