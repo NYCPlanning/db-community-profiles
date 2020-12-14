@@ -206,7 +206,6 @@ echo "sanitation, $V_SANITATION" >> output/versions.csv
 echo "poverty, $V_POVERTY" >> output/versions.csv
 echo "dpr_access_zone, $V_PARKS" >> output/versions.csv
 echo "decennial, $V_DECENNIAL" >> output/versions.csv
-echo "fema_pfirms2015_100yr, $V_FLOODPLAIN" >> output/versions.csv
 echo "facilities, $V_FACDB" >> output/versions.csv
 echo "dcp_pluto, $V_PLUTO" >> output/versions.csv
 echo "acs, $V_ACS" >> output/versions.csv
