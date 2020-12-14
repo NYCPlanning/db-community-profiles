@@ -5,7 +5,7 @@ on:
     types: [build]
 
 jobs:
-  test:
+  Build:
     runs-on: self-hosted
     env:
       RECIPE_ENGINE: ${{ secrets.RECIPE_ENGINE }}
@@ -13,50 +13,12 @@ jobs:
       API_TOKEN: ${{ secrets.API_TOKEN }}
       BUILD_ENGINE: ${{ secrets.BUILD_ENGINE }}
       CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
-      V_ACS: ${{ github.event.client_payload.V_ACS }}
-      V_DECENNIAL: ${{ github.event.client_payload.V_DECENNIAL }}
-      V_PLUTO: ${{ github.event.client_payload.V_PLUTO }}
-      V_CRIME: ${{ github.event.client_payload.V_CRIME }}
     steps:
     - uses: actions/checkout@v2
     - name: Install dependencies
       run: |
         sudo apt update
         sudo apt install -y postgresql-client-10
-
-    - name: Export versions
-      working-directory: cdprofiles_build
-      run: |
-        mkdir -p output
-        echo "V_GEO=$(psql $RECIPE_ENGINE -c "\copy (
-          SELECT v as version 
-          from dcp_cdboundaries.latest limit 1
-          ) TO stdout DELIMITER ',' CSV;")" >> $GITHUB_ENV
-        echo "V_SANITATION=$(date +'%Y/%m')" >> $GITHUB_ENV
-        echo  "V_POVERTY=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
-        echo "V_PARKS=$(psql $RECIPE_ENGINE -c "\copy (
-          SELECT v as version 
-          from dpr_access_zone.latest limit 1
-          ) TO stdout DELIMITER ',' CSV;")" >> $GITHUB_ENV
-        echo "V_FLOODPLAIN=$(psql $RECIPE_ENGINE -c "\copy (
-          SELECT v as version 
-          from fema_pfirms2015_100yr.latest limit 1
-          ) TO stdout DELIMITER ',' CSV;")" >> $GITHUB_ENV
-        echo "V_FACDB=$(psql $EDM_DATA -c "\copy (
-          SELECT v as version 
-          from facilities.latest limit 1
-          ) TO stdout DELIMITER ',' CSV;")" >> $GITHUB_ENV
-        echo "Input, Version" > output/versions.csv
-        echo "dcp_cdboundaries, $V_GEO" >> output/versions.csv
-        echo "crime, $V_CRIME" >> output/versions.csv
-        echo "sanitation, $V_SANITATION" >> output/versions.csv
-        echo "poverty, $V_POVERTY" >> output/versions.csv
-        echo "dpr_access_zone, $V_PARKS" >> output/versions.csv
-        echo "decennial, $V_DECENNIAL" >> output/versions.csv
-        echo "fema_pfirms2015_100yr, $V_FLOODPLAIN" >> output/versions.csv
-        echo "facilities, $V_FACDB" >> output/versions.csv
-        echo "dcp_pluto, $V_PLUTO" >> output/versions.csv
-        echo "acs, $V_ACS" >> output/versions.csv
 
     - name: Build
       working-directory: cdprofiles_build

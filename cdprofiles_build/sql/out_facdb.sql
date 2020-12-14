@@ -5,7 +5,7 @@ CREATE TEMP TABLE facdb as (
         sum(CASE WHEN facsubgrp = 'HOSPITALS AND CLINICS' THEN 1 ELSE 0 END) count_hosp_clinic,
         sum(CASE WHEN facsubgrp = 'PUBLIC LIBRARIES' THEN 1 ELSE 0 END) count_libraries,
         sum(CASE WHEN facsubgrp = 'PUBLIC K-12 SCHOOLS' THEN 1 ELSE 0 END) count_public_schools
-    FROM facilities.latest
+    FROM facilities.:"VERSION"
     GROUP BY commboard
     ORDER BY commboard   
 );
