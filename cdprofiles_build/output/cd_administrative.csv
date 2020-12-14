@@ -1,32 +1,16 @@
 cd_name,cd_number,borough,cd_neighborhoods,cb_email,cb_website,son_issue_1,son_issue_2,son_issue_3
-Manhattan Community District 1,101,Manhattan,"Battery Park City, Civic Center, Ellis Island, Governors Island, Liberty Island, South Street Seaport, Tribeca, Wall Street, World Trade Center",man01@cb.nyc.gov,www1.nyc.gov/site/manhattancb1/index.page,Infrastructure resiliency,Traffic,Other
-Manhattan Community District 2,102,Manhattan,"Greenwich Village, Hudson Square, Little Italy, NoHo, SoHo, South Village, West Village",bgormley@cb.nyc.gov,www.nyc.gov/html/mancb2,Parks,Schools,Senior services
-Manhattan Community District 3,103,Manhattan,"Chinatown, East Village, Lower East Side, NoHo, Two Bridges",mn03@cb.nyc.gov,www.nyc.gov/html/mancb3,Affordable housing,Senior services,Homelessness
-Manhattan Community District 4,104,Manhattan,"Chelsea, Clinton, Hudson Yards",jbodine@cb.nyc.gov,www.nyc.gov/mcb4,Affordable housing,"Land use trends (zoning, development, neighborhood preservation, etc.)",Traffic
-Manhattan Community District 5,105,Manhattan,"Flatiron, Gramercy Park, Herald Square, Midtown, Midtown South, Murray Hill, Times Square, Union Square",office@cb5.org,www.cb5.org,Traffic,Trash removal & cleanliness,Homelessness
-Manhattan Community District 6,106,Manhattan,"Beekman Place, Gramercy Park, Murray Hill, Peter Cooper Village, Stuyvesant Town, Sutton Place, Tudor City, Turtle Bay",Office@cbsix.org,www.cbsix.org,Affordable housing,Parks,Homelessness
-Manhattan Community District 7,107,Manhattan,"Lincoln Square, Manhattan Valley, Upper West Side",office@cb7.org,www.nyc.gov/mcb7,Affordable housing,Schools,Social services
-Manhattan Community District 8,108,Manhattan,"Carnegie Hill, Lenox Hill, Roosevelt Island, Upper East Side, Yorkville",info@cb8m.com,www.cb8m.com,Affordable housing,Parks,Schools
-Manhattan Community District 9,109,Manhattan,"Hamilton Heights, Manhattanville, Morningside Heights, West Harlem",eprince@cb9m.org,www.cb9m.org,Affordable housing,Crime,Unemployment
-Manhattan Community District 10,110,Manhattan,Central Harlem,MN10CB@cb.nyc.gov,www.nyc.gov/html/mancb10,Affordable housing,"Commercial development (retail mix, small business, MWBE support, etc.)",Trash removal & cleanliness
-Manhattan Community District 11,111,Manhattan,"East Harlem, Harlem, Randall's Island Park, Wards Island Park",mn11@cb.nyc.gov,www.cb11m.org,Affordable housing,"Land use trends (zoning, development, neighborhood preservation, etc.)",Unemployment
-Manhattan Community District 12,112,Manhattan,"Inwood, Washington Heights",ebsmith@cb.nyc.gov,www.nyc.gov/html/mancb12,Affordable housing,"Land use trends (zoning, development, neighborhood preservation, etc.)",Schools
-,164,Manhattan,,,,,,
 Bronx Community District 1,201,Bronx,"Melrose, Mott Haven, Port Morris",brxcb1@optonline.net,www1.nyc.gov/site/bronxcb1/index.page,Affordable housing,Health care services,Unemployment
 Bronx Community District 2,202,Bronx,"Hunts Point, Longwood",brxcb2@optonline.net,www.bxcb2.org,Parks,Schools,Youth and children¬ís services
 Bronx Community District 3,203,Bronx,"Claremont, Crotona Park East, Melrose, Morrisania",brxcomm3@optonline.net,www.nyc.gov/bronxcb3,Health care services,Unemployment,Youth and children¬ís services
+Bronx Community District 6,206,Bronx,"Bathgate, Belmont, Bronx Park South, East Tremont, West Farms",bronxcb6@bronxcb6.org,www.bronxcb6.org,Crime,Schools,Unemployment
 Bronx Community District 4,204,Bronx,"Concourse, Concourse Village, East Concourse, Highbridge, Mount Eden, West Concourse",bx04@cb.nyc.gov,www.nyc.gov/html/bxcb4,"Quality of life issues (noise, graffiti, petty crime, etc.)",Schools,Youth and children¬ís services
 Bronx Community District 5,205,Bronx,"Fordham, Morris Heights, Mount Hope, University Heights",bx05@cb.nyc.gov,www1.nyc.gov/site/bronxcb5/index.page,Affordable housing,Schools,Unemployment
-Bronx Community District 6,206,Bronx,"Bathgate, Belmont, Bronx Park South, East Tremont, West Farms",bronxcb6@bronxcb6.org,www.bronxcb6.org,Crime,Schools,Unemployment
 Bronx Community District 7,207,Bronx,"Bedford Park, Fordham, Kingsbridge Heights, Norwood, University Heights",info@bronxcb7.info,www.bronxcb7.info,"Land use trends (zoning, development, neighborhood preservation, etc.)",Schools,Other
 Bronx Community District 8,208,Bronx,"Fieldston, Kingsbridge, Marble Hill (MN), North Riverdale, Riverdale, Spuyten Duyvil",bx08@cb.nyc.gov,www.nyc.gov/html/bxcb8,"Land use trends (zoning, development, neighborhood preservation, etc.)",Parks,Senior services
 Bronx Community District 9,209,Bronx,"Bronx River, Castle Hill, Clason Point, Harding Park, Parkchester, Soundview, Soundview-Bruckner, Unionport",bx09@cb.nyc.gov,www.nyc.gov/bxcb9,Affordable housing,Crime,"Land use trends (zoning, development, neighborhood preservation, etc.)"
 Bronx Community District 10,210,Bronx,"City Island, Co-op City, Country Club, Edgewater Park, Pelham Bay, Schuylerville, Throgs Neck, Westchester Square",bx10@cb.nyc.gov,www.nyc.gov/html/bxcb10/,"Quality of life issues (noise, graffiti, petty crime, etc.)",Traffic,Trash removal & cleanliness
 Bronx Community District 11,211,Bronx,"Allerton, Bronxdale, Indian Village, Morris Park, Pelham Gardens, Pelham Parkway, Van Nest",Bx11@cb.nyc.gov,www.nyc.gov/bxcb11,Police-community relations,Public health facilities,"Quality of life issues (noise, graffiti, petty crime, etc.)"
 Bronx Community District 12,212,Bronx,"Baychester, Eastchester, Edenwald, Olinville, Wakefield, Williamsbridge, Woodlawn",gtorres@cb.nyc.gov ,www1.nyc.gov/site/bronxcb12/index.page,Parks,"Quality of life issues (noise, graffiti, petty crime, etc.)",Trash removal & cleanliness
-,226,Bronx,,,,,,
-,227,Bronx,,,,,,
-,228,Bronx,,,,,,
 Brooklyn Community District 1,301,Brooklyn,"East Williamsburg, Greenpoint, Northside, Southside, Williamsburg",bk01@cb.nyc.gov,www.nyc.gov/html/bkncb1,Affordable housing,"Land use trends (zoning, development, neighborhood preservation, etc.)",Senior services
 Brooklyn Community District 2,302,Brooklyn,"Boerum Hill, Brooklyn Heights, Clinton Hill, Downtown Brooklyn, DUMBO, Fort Greene, Fulton Ferry, Navy Yard, Vinegar Hill",cb2k@nyc.rr.com,www.nyc.gov/html/bkncb2,Affordable housing,Schools,Other
 Brooklyn Community District 3,303,Brooklyn,"Bedford-Stuyvesant, Stuyvesant Heights, Tompkins Park North",bk03@cb.nyc.gov,https://www1.nyc.gov/site/brooklyncb3/index.page,Affordable housing,Schools,Trash removal & cleanliness
@@ -45,8 +29,18 @@ Brooklyn Community District 15,315,Brooklyn,"Gerritsen Beach, Gravesend, Homecre
 Brooklyn Community District 16,316,Brooklyn,"Broadway Junction, Brownsville, Ocean Hill",bk16@cb.nyc.gov,www.nyc.gov/brooklyncb16,Affordable housing,Health care services,Youth and children¬ís services
 Brooklyn Community District 17,317,Brooklyn,"East Flatbush, Farragut, Flatbush, Northeast Flatbush, Remsen Village, Rugby, Erasmus",bk17@cb.nyc.gov,www.cb17brooklyn.org,Schools,Senior services,Street conditions (roadway maintenance)
 Brooklyn Community District 18,318,Brooklyn,"Bergen Beach, Canarsie, Flatlands, Georgetown, Marine Park, Mill Basin, Mill Island, Paerdegat Basin",bkbrd18@optonline.net,0,Parks,Infrastructure resiliency,Street conditions (roadway maintenance)
-,355,Brooklyn,,,,,,
-,356,Brooklyn,,,,,,
+Manhattan Community District 1,101,Manhattan,"Battery Park City, Civic Center, Ellis Island, Governors Island, Liberty Island, South Street Seaport, Tribeca, Wall Street, World Trade Center",man01@cb.nyc.gov,www1.nyc.gov/site/manhattancb1/index.page,Infrastructure resiliency,Traffic,Other
+Manhattan Community District 2,102,Manhattan,"Greenwich Village, Hudson Square, Little Italy, NoHo, SoHo, South Village, West Village",bgormley@cb.nyc.gov,www.nyc.gov/html/mancb2,Parks,Schools,Senior services
+Manhattan Community District 3,103,Manhattan,"Chinatown, East Village, Lower East Side, NoHo, Two Bridges",mn03@cb.nyc.gov,www.nyc.gov/html/mancb3,Affordable housing,Senior services,Homelessness
+Manhattan Community District 4,104,Manhattan,"Chelsea, Clinton, Hudson Yards",jbodine@cb.nyc.gov,www.nyc.gov/mcb4,Affordable housing,"Land use trends (zoning, development, neighborhood preservation, etc.)",Traffic
+Manhattan Community District 5,105,Manhattan,"Flatiron, Gramercy Park, Herald Square, Midtown, Midtown South, Murray Hill, Times Square, Union Square",office@cb5.org,www.cb5.org,Traffic,Trash removal & cleanliness,Homelessness
+Manhattan Community District 6,106,Manhattan,"Beekman Place, Gramercy Park, Murray Hill, Peter Cooper Village, Stuyvesant Town, Sutton Place, Tudor City, Turtle Bay",Office@cbsix.org,www.cbsix.org,Affordable housing,Parks,Homelessness
+Manhattan Community District 7,107,Manhattan,"Lincoln Square, Manhattan Valley, Upper West Side",office@cb7.org,www.nyc.gov/mcb7,Affordable housing,Schools,Social services
+Manhattan Community District 8,108,Manhattan,"Carnegie Hill, Lenox Hill, Roosevelt Island, Upper East Side, Yorkville",info@cb8m.com,www.cb8m.com,Affordable housing,Parks,Schools
+Manhattan Community District 9,109,Manhattan,"Hamilton Heights, Manhattanville, Morningside Heights, West Harlem",eprince@cb9m.org,www.cb9m.org,Affordable housing,Crime,Unemployment
+Manhattan Community District 10,110,Manhattan,Central Harlem,MN10CB@cb.nyc.gov,www.nyc.gov/html/mancb10,Affordable housing,"Commercial development (retail mix, small business, MWBE support, etc.)",Trash removal & cleanliness
+Manhattan Community District 11,111,Manhattan,"East Harlem, Harlem, Randall's Island Park, Wards Island Park",mn11@cb.nyc.gov,www.cb11m.org,Affordable housing,"Land use trends (zoning, development, neighborhood preservation, etc.)",Unemployment
+Manhattan Community District 12,112,Manhattan,"Inwood, Washington Heights",ebsmith@cb.nyc.gov,www.nyc.gov/html/mancb12,Affordable housing,"Land use trends (zoning, development, neighborhood preservation, etc.)",Schools
 Queens Community District 1,401,Queens,"Astoria, Astoria Heights, Queensbridge, Dutch Kills, Long Island City, Ravenswood, Rikers Island (BX), Steinway",Qn01@cb.nyc.gov,www1.nyc.gov/site/queenscb1/index.page,Affordable housing,Police-community relations,Other
 Queens Community District 2,402,Queens,"Blissville, Hunters Point, Long Island City, Sunnyside, Sunnyside Gardens, Woodside",qn02@cb.nyc.gov,www.nyc.gov/queenscb2,"Land use trends (zoning, development, neighborhood preservation, etc.)",Transit (buses & subways),Homelessness
 Queens Community District 3,403,Queens,"East Elmhurst, Jackson Heights, North Corona",communityboard3@nyc.rr.com,www.cb3qn.nyc.gov,Affordable housing,Schools,Senior services
@@ -61,12 +55,6 @@ Queens Community District 11,411,Queens,"Auburndale, Bayside, Douglaston, Hollis
 Queens Community District 12,412,Queens,"Hollis, Jamaica, Jamaica Center, North Springfield Gardens, Rochdale, South Jamaica, St. Albans",qn12@cb.nyc.gov,www.nyc.gov/qcb12,Schools,Senior services,Street flooding
 Queens Community District 13,413,Queens,"Bellaire, Bellerose, Brookville, Cambria Heights, Floral Park, Glen Oaks, Laurelton, New Hyde Park, Queens Village, Rosedale, Springfield Gardens",info@qcb13.org,www1.nyc.gov/site/queenscb13/index.page,Parks,Street conditions (roadway maintenance),Traffic
 Queens Community District 14,414,Queens,"Arverne, Bayswater, Belle Harbor, Breezy Point, Broad Channel, Edgemere, Far Rockaway, Hammels, Neponsit, Rockaway Park, The Rockaways, Roxbury, Seaside, Somerville",cbrock14@nyc.rr.com,www1.nyc.gov/site/queenscb14/index.page,Infrastructure resiliency,Transit (buses & subways),Unemployment
-,480,Queens,,,,,,
-,481,Queens,,,,,,
-,482,Queens,,,,,,
-,483,Queens,,,,,,
-,484,Queens,,,,,,
 Staten Island Community District 1,501,Staten Island,"Arlington, Castleton Corners, Clifton, Elm Park, Fox Hills, Graniteville, Grymes Hill, Howland Hook, Livingston, Mariner's Harbor, New Brighton, Old Place, Park Hill, Port Ivory, Port Richmond, Randall Manor, Rosebank, Shore Acres, Silver Lake, St. George, Stapleton, Sunnyside, Tompkinsville, Ward Hill, West Brighton, West New Brighton, Westerliegh, Willowbrook",Sicb1@si.rr.com,www1.nyc.gov/site/statenislandcb1/index.page,"Land use trends (zoning, development, neighborhood preservation, etc.)",Traffic,Transit (buses & subways)
 Staten Island Community District 2,502,Staten Island,"Arrochar, Bloomfield, Bulls Head, Chelsea, Concord, Dongan Hills, Egbertville, Emerson Hill, Grant City, Grasmere, Heartland Village, Lighthouse Hill, Manor Heights, Midland Beach, New Dorp, New Dorp Beach, New Springville, Old Town, South Beach, Todt Hill, Travis, Willowbrook",dderrico@cb.nyc.gov,www.cb2si.com/,Infrastructure resiliency,Schools,Traffic
 Staten Island Community District 3,503,Staten Island,"Annadale, Arden Heights, Bay Terrace, Butler Manor, Charleston, Eltingville, Fresh Kills, Great Kills, Greenridge, Huguenot, Oakwood, Oakwood Beach, Oakwood Heights, Pleasant Plains, Prince's Bay, Richmond Town, Richmond Valley, Rossville, Sandy Ground, Tottenville, Woodrow",sicb3@cb.nyc.gov,www1.nyc.gov/site/statenislandcb3/index.page,"Land use trends (zoning, development, neighborhood preservation, etc.)",Street conditions (roadway maintenance),Traffic
-,595,Staten Island,,,,,,
