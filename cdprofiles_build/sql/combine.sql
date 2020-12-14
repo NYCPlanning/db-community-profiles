@@ -1,5 +1,15 @@
 DROP TABLE IF EXISTS combined CASCADE;
 WITH
+JOIN_decennial AS (
+    SELECT
+        a.*,
+        b.pop_2000,
+        b.pop_2010,
+        b.pop_change_00_10
+    FROM acs a
+    LEFT JOIN cd_decennial_pop b
+    ON a.borocd = b.borocd
+),
 JOIN_CRIME AS (
     SELECT
         a.*,
@@ -11,7 +21,7 @@ JOIN_CRIME AS (
             ELSE NULL END) as crime_per_1000,
         round(b.crime_count_boro*1000/a.pop_acs_boro::numeric,1)as crime_per_1000_boro,
         round(b.crime_count_nyc*1000/a.pop_acs_nyc::numeric,1) as crime_per_1000_nyc
-    FROM acs a
+    FROM JOIN_decennial a
     LEFT JOIN crime b
     ON a.borocd = b.borocd
 ),

@@ -5,6 +5,8 @@ import sys
 from factfinder.main import Pff
 
 acs = Pff(api_key=os.environ['CENSUS_API_KEY'], year=int(os.environ['V_ACS'].split('-')[1]))
+
+'''
 decennial = Pff(api_key=os.environ['CENSUS_API_KEY'], year=int(os.environ['V_DECENNIAL']))
 prev_decennial = Pff(api_key=os.environ['CENSUS_API_KEY'], year=int(os.environ['V_DECENNIAL'])-10)
 
@@ -14,6 +16,8 @@ dec_variable_mapping = [
 prev_dec_variable_mapping = [
     {'pff_variable': 'decennial_pop', 'geotype': 'cd', 'column_mapping': {'e': 'pop_2000'}},
     ]
+'''
+
 acs_variable_mapping = [
  {'pff_variable': 'wtnh',
   'geotype': 'cd',
@@ -225,10 +229,11 @@ for i in acs_variable_mapping:
     df = calculate(i, acs)
     dfs.append(df)
 
+'''
 for i in dec_variable_mapping:
     df = calculate(i, decennial)
     dfs.append(df)
-'''
+
 for i in prev_dec_variable_mapping:
     df = calculate(i, prev_decennial)
     dfs.append(df)

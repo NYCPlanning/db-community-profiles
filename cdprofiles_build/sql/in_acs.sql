@@ -87,8 +87,8 @@ CREATE TABLE _acs (
     moe_under18_rate double precision,
     under18_rate double precision,
     moe_under18_rate_nyc double precision,
-    under18_rate_nyc double precision,
-    pop_2010 double precision
+    under18_rate_nyc double precision
+    --pop_2010 double precision
     --pop_2000 double precision
 );
 
@@ -203,7 +203,7 @@ cd_boro AS (
         a.under18_rate,
         --(a.pop_2010 - a.pop_2000) as pop_change_00_10,
         -- a.pop_2000,
-        a.pop_2010,
+        -- a.pop_2010,
         b.moe_unemployment_boro,
         b.unemployment_boro,
         b.moe_bach_deg_boro,
