@@ -69,13 +69,19 @@ jobs:
         path: cdprofiles_build/output/
 
     - name: Commit files
+      working-directory: ./
       run: |
-          DATE=$(date)
-          git config --global user.email "action@github.com"
-          git config --global user.name "GitHub Action"
-          git pull
-          git add cdprofiles_build/output/
-          git commit -m "🎉 Rerun and Update Community Profiles Data $DATE" -a
+        pwd
+        ls -l 
+        ls -l cdprofiles_build/output/
+        git status 
+        
+        DATE=$(date)
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git pull
+        git add cdprofiles_build/output/
+        git commit -m "🎉 Rerun and Update Community Profiles Data $DATE" -a
           
     - name: Push changes
       uses: ad-m/github-push-action@master
