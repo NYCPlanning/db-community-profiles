@@ -9,12 +9,11 @@ display "Loading crime data"
 docker run --rm\
     -v $(pwd):/src\
     -w /src/python\
-    --user $UID\
     -e API_TOKEN=$API_TOKEN\
     -e BUILD_ENGINE=$BUILD_ENGINE\
     -e V_CRIME=$V_CRIME\
     python:3.7-slim bash -c "
-        pip3 install -q pff-factfinder;
+        pip3 install -q requests;
         python3 out_crime.py" |  
     psql $BUILD_ENGINE -f sql/in_crime.sql
 
