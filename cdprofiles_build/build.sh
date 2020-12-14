@@ -197,7 +197,7 @@ psql $BUILD_ENGINE -c "\COPY (
     SELECT * FROM cd_administrative
     ) TO stdout DELIMITER ',' CSV HEADER;" > output/cd_administrative.csv &
 psql $BUILD_ENGINE -c "\COPY (
-    SELECT * FROM cd_build_environment
+    SELECT * FROM cd_built_environment
     ) TO stdout DELIMITER ',' CSV HEADER;" > output/cd_build_environment.csv &
 psql $BUILD_ENGINE -c "\COPY (
     SELECT * FROM cd_floodplain
