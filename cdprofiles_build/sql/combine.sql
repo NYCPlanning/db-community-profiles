@@ -7,7 +7,7 @@ JOIN_decennial AS (
         b.pop_2010,
         b.pop_change_00_10
     FROM acs a
-    LEFT JOIN cd_decennial_pop b
+    JOIN cd_decennial_pop b
     ON a.borocd = b.borocd
 ),
 JOIN_CRIME AS (
