@@ -201,7 +201,7 @@ CREATE VIEW city_cd_attributes AS (
         under18_rate_nyc as under18_rate,
         moe_under18_rate_nyc as moe_under18_rate,
         over65_rate_nyc as over65_rate,
-        moe_over65_rate as moe_over65,
+        moe_over65_rate_nyc as moe_over65,
         lep_rate_nyc as lep_rate,
         moe_lep_rate_nyc as moe_lep_rate,
         pct_hh_rent_burd_nyc as pct_hh_rent_burd,
