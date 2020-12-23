@@ -200,6 +200,16 @@ JOIN_tooltips as (
     LEFT JOIN cd_tooltips b
     ON a.borocd = b.borocd
 ),
+JOIN_puma as (
+    SELECT
+        a.*,
+        b.puma,
+        b.shared_puma,
+        b.shared_puma_cd
+    FROM JOIN_tooltips a
+    LEFT JOIN cd_puma b
+    ON a.borocd = b.borocd
+),
 JOIN_poverty as (
     SELECT
         a.*,
@@ -207,7 +217,7 @@ JOIN_poverty as (
         b.moe_poverty_rate,
         b.poverty_rate_boro,
         b.poverty_rate_nyc
-    FROM JOIN_tooltips a 
+    FROM JOIN_puma a 
     LEFT JOIN poverty b 
     ON a.borocd = b.borocd
 )
