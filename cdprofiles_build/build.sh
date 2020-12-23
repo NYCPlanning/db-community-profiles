@@ -87,7 +87,7 @@ psql -q $EDM_DATA -v VERSION=$V_PLUTO -f sql/out_pluto_landusecount.sql |
 psql -q $EDM_DATA -v VERSION=$V_PLUTO -f sql/out_pluto_landusearea.sql |
     psql $BUILD_ENGINE -f sql/in_pluto_landusearea.sql &
 
-display "Loading look-up tables: Titles, CB contact, SON, decennial pop, and tooltips"
+display "Loading look-up tables: Titles, CB contact, SON, decennial pop, tooltips, and PUMAs"
 
 cat data/cd_puma.csv | psql $BUILD_ENGINE -c "
     DROP TABLE IF EXISTS cd_puma;
@@ -161,6 +161,17 @@ cat data/cd_decennial_pop.csv | psql $BUILD_ENGINE -c "
         pop_change_00_10 text
     ); 
     COPY cd_decennial_pop FROM STDIN DELIMITER ',' CSV HEADER;
+"
+
+cat data/cd_puma.csv | psql $BUILD_ENGINE -c "
+    DROP TABLE IF EXISTS cd_puma;
+    CREATE TABLE cd_puma (
+        borocd text,
+        puma text,
+        shared_puma boolean,
+        shared_puma_cd text
+    ); 
+    COPY cd_puma FROM STDIN DELIMITER ',' CSV HEADER;
 "
 
 wait
