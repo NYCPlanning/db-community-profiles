@@ -89,15 +89,6 @@ psql -q $EDM_DATA -v VERSION=$V_PLUTO -f sql/out_pluto_landusearea.sql |
 
 display "Loading look-up tables: Titles, CB contact, SON, decennial pop, tooltips, and PUMAs"
 
-cat data/cd_puma.csv | psql $BUILD_ENGINE -c "
-    DROP TABLE IF EXISTS cd_puma;
-    CREATE TABLE cd_puma (
-        borocd text,
-        puma text
-    ); 
-    COPY cd_puma FROM STDIN DELIMITER ',' CSV HEADER;
-"
-
 cat data/cd_titles.csv | psql $BUILD_ENGINE -c "
     DROP TABLE IF EXISTS cd_titles;
     CREATE TABLE cd_titles (
