@@ -41,7 +41,7 @@ jobs:
         DATE=$(date)
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git pull
+        git pull --rebase
         git add cdprofiles_build/output/
         git commit -m "🎉 Rerun and Update Community Profiles Data $DATE" -a
           
