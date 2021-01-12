@@ -21,8 +21,11 @@ jobs:
         sudo apt install -y postgresql-client-10
 
     - name: Build
+      id: build
       working-directory: cdprofiles_build
-      run: ./build.sh
+      run: |
+        echo ::set-output name=date::$(date)
+        ./build.sh
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
@@ -35,7 +38,7 @@ jobs:
       with:
         author_name: GitHub Action
         author_email: action@github.com
-        message: "🎉 Rerun and Update Community Profiles Data"
+        message: "🎉 Rerun and Update Community Profiles Data ${{steps.build.outputs.date}}"
         add: 'cdprofiles_build/output/'
           
     - name: Clean up
