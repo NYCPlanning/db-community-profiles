@@ -222,3 +222,4 @@ echo "decennial, $V_DECENNIAL" >> output/versions.csv
 echo "facilities, $V_FACDB" >> output/versions.csv
 echo "dcp_pluto, $V_PLUTO" >> output/versions.csv
 echo "acs, $V_ACS" >> output/versions.csv
+echo "cd_needs, $V_CDNEEDS" >> output/versions.csv
