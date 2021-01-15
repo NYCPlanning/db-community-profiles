@@ -232,7 +232,8 @@ SELECT
     :'V_SANITATION' as v_sanitation,
     :'V_GEO' as v_geo,
     :'V_PARKS' as v_parks,
-    :'V_POVERTY' as v_poverty
+    :'V_POVERTY' as v_poverty,
+    :'V_CDNEEDS' as v_cdneeds
 INTO combined
 FROM JOIN_poverty;
 

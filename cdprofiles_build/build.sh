@@ -124,7 +124,6 @@ cat data/cd_son.csv | psql $BUILD_ENGINE -c "
     CREATE TABLE cd_son (
         borocd text,
         neighborhoods text,
-        cd_son_fy2018 text,
         son_issue_1 text,
         son_issue_2 text,
         son_issue_3 text
@@ -177,6 +176,7 @@ psql -q $BUILD_ENGINE\
     -v V_GEO=$V_GEO\
     -v V_PARKS=$V_PARKS\
     -v V_POVERTY=$V_POVERTY\
+    -v V_CDNEEDS=$V_CDNEEDS\
     -f sql/combine.sql
 
 wait
