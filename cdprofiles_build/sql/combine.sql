@@ -182,7 +182,6 @@ JOIN_dcp as (
     SELECT
         a.*,
         b.neighborhoods,
-        b.cd_son_fy2018,
         b.son_issue_1,
         b.son_issue_2,
         b.son_issue_3
