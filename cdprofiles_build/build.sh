@@ -1,5 +1,6 @@
 #!/bin/bash
 source config.sh
+PFF_PKG_VERSION=0.0.3
 
 display "Loading CD boundary data"
 psql -q $RECIPE_ENGINE -v VERSION=$V_GEO -f sql/out_cd_geo.sql |
@@ -24,7 +25,7 @@ docker run --rm\
     -e BUILD_ENGINE=$BUILD_ENGINE\
     -e V_SANITATION=$V_SANITATION\
     python:3.7-slim bash -c "
-        pip3 install -q pff-factfinder;
+        pip3 install -q pff-factfinder==$PFF_PKG_VERSION;
         python3 out_sanitation.py" |  
     psql $BUILD_ENGINE -v VERSION=$V_SANITATION -f sql/in_sanitation.sql
 
@@ -34,7 +35,7 @@ docker run --rm\
     -w /src/python\
     -e BUILD_ENGINE=$BUILD_ENGINE\
     python:3.7-slim bash -c "
-        pip3 install -q pff-factfinder;
+        pip3 install -q pff-factfinder==0.0.3;
         python3 out_poverty.py" |  
     psql $BUILD_ENGINE -f sql/in_poverty.sql
 
@@ -45,8 +46,9 @@ docker run --rm\
     -e CENSUS_API_KEY=$CENSUS_API_KEY\
     -e V_DECENNIAL=$V_DECENNIAL\
     -e BUILD_ENGINE=$BUILD_ENGINE\
-    python:3.7-slim bash -c "pip3 install -q pff-factfinder;
-                                        python3 out_parks.py" |  
+    python:3.7-slim bash -c "
+        pip3 install -q pff-factfinder==$PFF_PKG_VERSION;
+        python3 out_parks.py" |  
     psql $BUILD_ENGINE -f sql/in_parks.sql
 
 display "Loading ACS data"
@@ -57,8 +59,9 @@ docker run --rm\
     -e V_DECENNIAL=$V_DECENNIAL\
     -e V_ACS=$V_ACS\
     -e BUILD_ENGINE=$BUILD_ENGINE\
-    python:3.7-slim bash -c "pip3 install -q pff-factfinder;
-                                    python3 out_acs.py" |  
+    python:3.7-slim bash -c "
+        pip3 install -q pff-factfinder==$PFF_PKG_VERSION;
+        python3 out_acs.py" |  
     psql $BUILD_ENGINE -f sql/in_acs.sql
 
 display "Loading floodplain data"
@@ -69,8 +72,9 @@ docker run --rm\
     -e V_DECENNIAL=$V_DECENNIAL\
     -e V_ACS=$V_ACS\
     -e BUILD_ENGINE=$BUILD_ENGINE\
-    python:3.7-slim bash -c "pip3 install -q pff-factfinder;
-                                    python3 out_floodplain_demo.py" |  
+    python:3.7-slim bash -c "
+        pip3 install -q pff-factfinder==$PFF_PKG_VERSION;
+        python3 out_floodplain_demo.py" |  
     psql $BUILD_ENGINE -f sql/in_floodplain_demo.sql
 
 psql -q $EDM_DATA -v VERSION=$V_PLUTO -f sql/out_floodplain.sql |
