@@ -12,7 +12,7 @@ docker run --rm\
     -e API_TOKEN=$API_TOKEN\
     -e BUILD_ENGINE=$BUILD_ENGINE\
     -e V_CRIME=$V_CRIME\
-    python:3.7-slim bash -c "
+    python:3.9-slim bash -c "
         pip3 install -q requests;
         python3 out_crime.py" |  
     psql $BUILD_ENGINE -f sql/in_crime.sql
@@ -23,8 +23,8 @@ docker run --rm\
     -w /src/python\
     -e BUILD_ENGINE=$BUILD_ENGINE\
     -e V_SANITATION=$V_SANITATION\
-    python:3.7-slim bash -c "
-        pip3 install -q pff-factfinder;
+    python:3.9-slim bash -c "
+        pip3 install -q pff-factfinder==$PFF_PKG_VERSION;
         python3 out_sanitation.py" |  
     psql $BUILD_ENGINE -v VERSION=$V_SANITATION -f sql/in_sanitation.sql
 
@@ -33,8 +33,8 @@ docker run --rm\
     -v $(pwd):/src\
     -w /src/python\
     -e BUILD_ENGINE=$BUILD_ENGINE\
-    python:3.7-slim bash -c "
-        pip3 install -q pff-factfinder;
+    python:3.9-slim bash -c "
+        pip3 install -q pff-factfinder==$PFF_PKG_VERSION;
         python3 out_poverty.py" |  
     psql $BUILD_ENGINE -f sql/in_poverty.sql
 
@@ -45,8 +45,9 @@ docker run --rm\
     -e CENSUS_API_KEY=$CENSUS_API_KEY\
     -e V_DECENNIAL=$V_DECENNIAL\
     -e BUILD_ENGINE=$BUILD_ENGINE\
-    python:3.7-slim bash -c "pip3 install -q pff-factfinder;
-                                        python3 out_parks.py" |  
+    python:3.9-slim bash -c "
+        pip3 install -q pff-factfinder==$PFF_PKG_VERSION;
+        python3 out_parks.py" |  
     psql $BUILD_ENGINE -f sql/in_parks.sql
 
 display "Loading ACS data"
@@ -57,8 +58,9 @@ docker run --rm\
     -e V_DECENNIAL=$V_DECENNIAL\
     -e V_ACS=$V_ACS\
     -e BUILD_ENGINE=$BUILD_ENGINE\
-    python:3.7-slim bash -c "pip3 install -q pff-factfinder;
-                                    python3 out_acs.py" |  
+    python:3.9-slim bash -c "
+        pip3 install -q pff-factfinder==$PFF_PKG_VERSION;
+        python3 out_acs.py" |  
     psql $BUILD_ENGINE -f sql/in_acs.sql
 
 display "Loading floodplain data"
@@ -69,8 +71,9 @@ docker run --rm\
     -e V_DECENNIAL=$V_DECENNIAL\
     -e V_ACS=$V_ACS\
     -e BUILD_ENGINE=$BUILD_ENGINE\
-    python:3.7-slim bash -c "pip3 install -q pff-factfinder;
-                                    python3 out_floodplain_demo.py" |  
+    python:3.9-slim bash -c "
+        pip3 install -q pff-factfinder==$PFF_PKG_VERSION;
+        python3 out_floodplain_demo.py" |  
     psql $BUILD_ENGINE -f sql/in_floodplain_demo.sql
 
 psql -q $EDM_DATA -v VERSION=$V_PLUTO -f sql/out_floodplain.sql |
