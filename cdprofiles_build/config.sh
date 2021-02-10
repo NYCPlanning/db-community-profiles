@@ -56,8 +56,11 @@ function CSV_export {
 }
 
 function Upload {
-  mc rm -r --force spaces/edm-publishing/db-community-profiles/$@
-  mc cp -r output spaces/edm-publishing/db-community-profiles/$@
+  cd output
+  mc rm -r --force spaces/edm-publishing/datasets/community_profiles/$@
+  for file in *; do
+    mc cp -r $file spaces/edm-publishing/datasets/community_profiles/$@
+  done
 }
 
 function imports_csv {
