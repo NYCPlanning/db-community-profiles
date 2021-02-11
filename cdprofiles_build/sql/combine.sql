@@ -173,7 +173,7 @@ JOIN_cb_contact as (
 JOIN_parks as (
     SELECT
         a.*,
-        ROUND(b.pct_served_parks, 2) as pct_served_parks
+        ROUND(b.pct_served_parks, 4) as pct_served_parks
     FROM JOIN_cb_contact a
     LEFT JOIN parks b
     ON a.borocd = b.borocd

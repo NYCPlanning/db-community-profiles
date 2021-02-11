@@ -40,7 +40,7 @@ SELECT
                 WHEN area = 0 THEN 0
                 ELSE intersect_area * pop_2010 / area
             END) / SUM(pop_2010)
-    END) as pct_served_parks
+    END)*100 as pct_served_parks
 INTO PARKS_PROPORTIONAL
 FROM _PARKS
 GROUP BY borocd;
