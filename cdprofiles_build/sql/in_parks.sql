@@ -9,6 +9,6 @@ CREATE TEMP TABLE tmp (
 
 SELECT 
     census_geoid as borocd,
-    per_access as pct_served_parks
+    per_access*100 as pct_served_parks
 INTO PARKS
 FROM tmp;
