@@ -1,9 +1,6 @@
 name: Build Community Profiles
-
 on:
-  repository_dispatch:
-    types: [build]
-
+  workflow_dispatch:
 jobs:
   Build:
     runs-on: self-hosted
@@ -18,11 +15,10 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt update
-        sudo apt install -y postgresql-client-10
+        sudo apt install -y postgresql-client
 
     - name: Build
       id: build
-      working-directory: cdprofiles_build
       run: |
         echo ::set-output name=date::$(date)
         ./build.sh
@@ -31,7 +27,7 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: output
-        path: cdprofiles_build/output/
+        path: output/
 
     - name: Commit output
       uses: EndBug/add-and-commit@v6
@@ -39,7 +35,7 @@ jobs:
         author_name: GitHub Action
         author_email: action@github.com
         message: "🎉 Rerun and Update Community Profiles Data ${{steps.build.outputs.date}}"
-        add: 'cdprofiles_build/output/'
+        add: output/
 
     - name: Create Issue to Publish
       uses: nashmaniac/create-issue-action@v1.1
