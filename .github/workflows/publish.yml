@@ -29,9 +29,7 @@ jobs:
 
     - name: Publish
       id: publish
-      working-directory: cdprofiles_build
-      run: |
-        ./publish.sh
+      run: ./publish.sh
                 
     - name: Success Message
       if: success()

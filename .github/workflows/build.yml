@@ -1,12 +1,9 @@
 name: Build Community Profiles
-
 on:
-  repository_dispatch:
-    types: [build]
-
+  workflow_dispatch:
 jobs:
   Build:
-    runs-on: self-hosted
+    runs-on: ubuntu-20.04
     env:
       RECIPE_ENGINE: ${{ secrets.RECIPE_ENGINE }}
       EDM_DATA: ${{ secrets.EDM_DATA }}
@@ -15,31 +12,35 @@ jobs:
       CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
     steps:
     - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    
     - name: Install dependencies
       run: |
         sudo apt update
-        sudo apt install -y postgresql-client-10
+        sudo apt install -y postgresql-client
+        pip install -r requirements.txt
 
     - name: Build
       id: build
-      working-directory: cdprofiles_build
       run: |
         echo ::set-output name=date::$(date)
-        ./build.sh
+        ./build.sh all
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
       with:
         name: output
-        path: cdprofiles_build/output/
+        path: output/
 
     - name: Commit output
       uses: EndBug/add-and-commit@v6
       with:
         author_name: GitHub Action
         author_email: action@github.com
-        message: "🎉 Rerun and Update Community Profiles Data ${{steps.build.outputs.date}}"
-        add: 'cdprofiles_build/output/'
+        message: "🎉 Rerun and Update ${{steps.build.outputs.date}}"
+        add: output/
 
     - name: Create Issue to Publish
       uses: nashmaniac/create-issue-action@v1.1
@@ -50,11 +51,7 @@ jobs:
         assignees: mgraber, SPTKL, AmandaDoyle
         body: |
           ## 🎉 There is updated Community Profiles data from ${{steps.build.outputs.date}}
-          ## Next Steps: 
+          ## Next Steps:
           If you have manually checked above files and they seem to be ok, comment `[publish]` under this issue. 
           This would allow github actions to publish files to DigitalOcean, where Labs will pull files for download. 
           Feel free to close this issue once it's all complete. Thanks!
-
-    - name: Clean up
-      if: ${{ always() }}
-      run: sudo rm -rf cdprofiles_build
