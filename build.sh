@@ -46,6 +46,7 @@ park () {
 
 floodplain () {
     echo "Loading floodplain data"
+    import_public fema_firms_500yr
     # docker run --rm\
     #     -v $(pwd):/src\
     #     -w /src/python\
