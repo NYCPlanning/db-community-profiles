@@ -47,18 +47,6 @@ park () {
 floodplain () {
     echo "Loading floodplain data"
     import_public fema_firms_500yr
-    # docker run --rm\
-    #     -v $(pwd):/src\
-    #     -w /src/python\
-    #     -e CENSUS_API_KEY=$CENSUS_API_KEY\
-    #     -e V_DECENNIAL=$V_DECENNIAL\
-    #     -e V_ACS=$V_ACS\
-    #     -e BUILD_ENGINE=$BUILD_ENGINE\
-    #     python:3.9-slim bash -c "
-    #         pip3 install -q pff-factfinder==$PFF_PKG_VERSION;
-    #         python3 out_floodplain_demo.py" |  
-    #     psql $BUILD_ENGINE -f sql/in_floodplain_demo.sql
-
     psql $BUILD_ENGINE -f sql/create_floodplain.sql
 }
 
@@ -71,7 +59,7 @@ facdb () {
 
 pluto () {
     echo "Loading PLUTO data"
-    # import_public dcp_mappluto $V_PLUTO
+    import_public dcp_mappluto $V_PLUTO
     psql $BUILD_ENGINE -f sql/create_pluto_landusecount.sql &
     psql $BUILD_ENGINE -f sql/create_pluto_landusearea.sql &
     wait
@@ -94,7 +82,7 @@ combine () {
 }
 
 views () {
-    display "Create download views"
+    echo "Create download views"
     psql -q $BUILD_ENGINE -f sql/create_views.sql 
 }
 
@@ -122,7 +110,7 @@ versions () {
 }
 
 output () {
-    display "Export outputs to csv"
+    echo "Export outputs to csv"
     mkdir -p output && (
         cd output
         CSV_export combined & 
@@ -139,6 +127,15 @@ output () {
         CSV_export source_data_versions &
         wait
     )
+}
+
+publish () {
+    Upload staging &
+    Upload $DATE
+
+    wait 
+    echo "Upload Complete"
+
 }
 
 all () {
@@ -161,9 +158,10 @@ all () {
     views
     output
 }
+
 case $1 in
     hi) echo "hi";;
-    cdta|lookups|acs|crime|sanitation|poverty) $1 ;;
-    park|floodplain|facdb|pluto|combine|views|output|versions) $1;;
-    all) all;;
+    cdta|lookups|acs|crime|sanitation) $1 ;;
+    park|floodplain|facdb|pluto|combine) $1;;
+    poverty|views|output|versions|all|publish) $1;;
 esac
