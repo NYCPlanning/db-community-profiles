@@ -1,27 +1,27 @@
-DROP TABLE IF NOT EXISTS PLUTO_landusearea_commpro;
+DROP TABLE IF EXISTS PLUTO_landusearea_commpro;
 CREATE TABLE PLUTO_landusearea_commpro as (
     WITH 
     sumareas as (
-        SELECT cd, SUM(ST_Area(geom::geography::geography)) AS totallotarea
+        SELECT cd, SUM(ST_Area(wkb_geometry::geography::geography)) AS totallotarea
         FROM dcp_mappluto
         GROUP BY cd
     ),
     landusesums as (
         SELECT
             cd,
-            SUM(ST_Area(geom::geography)) FILTER (WHERE landuse='01') AS "lot_area___res_1_2_family_bldg",
-            SUM(ST_Area(geom::geography)) FILTER (WHERE landuse='02') AS "lot_area___res_multifamily_walkup",
-            SUM(ST_Area(geom::geography)) FILTER (WHERE landuse='03') AS "lot_area___res_multifamily_elevator",
-            SUM(ST_Area(geom::geography)) FILTER (WHERE landuse='04') AS "lot_area___mixed_use",
-            SUM(ST_Area(geom::geography)) FILTER (WHERE landuse='05') AS "lot_area___commercial_office",
-            SUM(ST_Area(geom::geography)) FILTER (WHERE landuse='06') AS "lot_area___industrial_manufacturing",
-            SUM(ST_Area(geom::geography)) FILTER (WHERE landuse='07') AS "lot_area___transportation_utility",
-            SUM(ST_Area(geom::geography)) FILTER (WHERE landuse='08') AS "lot_area___public_facility_institution",
-            SUM(ST_Area(geom::geography)) FILTER (WHERE landuse='09') AS "lot_area___open_space",
-            SUM(ST_Area(geom::geography)) FILTER (WHERE landuse='10') AS "lot_area___parking",
-            SUM(ST_Area(geom::geography)) FILTER (WHERE landuse='11') AS "lot_area___vacant",
-            SUM(ST_Area(geom::geography)) FILTER (WHERE landuse IS NULL) AS "lot_area___other_no_data",
-            SUM(ST_Area(geom::geography)) AS "total_lot_area"
+            SUM(ST_Area(wkb_geometry::geography)) FILTER (WHERE landuse='01') AS "lot_area___res_1_2_family_bldg",
+            SUM(ST_Area(wkb_geometry::geography)) FILTER (WHERE landuse='02') AS "lot_area___res_multifamily_walkup",
+            SUM(ST_Area(wkb_geometry::geography)) FILTER (WHERE landuse='03') AS "lot_area___res_multifamily_elevator",
+            SUM(ST_Area(wkb_geometry::geography)) FILTER (WHERE landuse='04') AS "lot_area___mixed_use",
+            SUM(ST_Area(wkb_geometry::geography)) FILTER (WHERE landuse='05') AS "lot_area___commercial_office",
+            SUM(ST_Area(wkb_geometry::geography)) FILTER (WHERE landuse='06') AS "lot_area___industrial_manufacturing",
+            SUM(ST_Area(wkb_geometry::geography)) FILTER (WHERE landuse='07') AS "lot_area___transportation_utility",
+            SUM(ST_Area(wkb_geometry::geography)) FILTER (WHERE landuse='08') AS "lot_area___public_facility_institution",
+            SUM(ST_Area(wkb_geometry::geography)) FILTER (WHERE landuse='09') AS "lot_area___open_space",
+            SUM(ST_Area(wkb_geometry::geography)) FILTER (WHERE landuse='10') AS "lot_area___parking",
+            SUM(ST_Area(wkb_geometry::geography)) FILTER (WHERE landuse='11') AS "lot_area___vacant",
+            SUM(ST_Area(wkb_geometry::geography)) FILTER (WHERE landuse IS NULL) AS "lot_area___other_no_data",
+            SUM(ST_Area(wkb_geometry::geography)) AS "total_lot_area"
         FROM dcp_mappluto  
         GROUP BY cd
     )

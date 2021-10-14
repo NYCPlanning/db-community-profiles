@@ -1,4 +1,4 @@
-DROP TABLE IF NOT EXISTS PLUTO_landusecount;
+DROP TABLE IF EXISTS PLUTO_landusecount;
 CREATE TABLE PLUTO_landusecount as (
 SELECT   
     cd as borocd,

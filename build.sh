@@ -70,9 +70,9 @@ facdb () {
 
 pluto () {
     echo "Loading PLUTO data"
-    import_public dcp_mappluto $V_PLUTO
-    psql $BUILD_ENGINE -f create_pluto_landusecount.sql &
-    psql $BUILD_ENGINE -f create_pluto_landusearea.sql &
+    # import_public dcp_mappluto $V_PLUTO
+    psql $BUILD_ENGINE -f sql/create_pluto_landusecount.sql &
+    psql $BUILD_ENGINE -f sql/create_pluto_landusearea.sql &
     wait
 }
 
