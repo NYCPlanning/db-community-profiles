@@ -1,4 +1,5 @@
-CREATE TEMP TABLE FLOODPLAIN as (
+DROP TABLE IF EXISTS FLOODPLAIN;
+CREATE TABLE FLOODPLAIN as (
     SELECT 
         cd,
         sum(CASE WHEN firm07_flag = '1' OR pfirm15_flag = '1' THEN ROUND(lotarea/27878400, 2) ELSE 0 END) as fp_100_area,
@@ -44,8 +45,7 @@ CREATE TEMP TABLE FLOODPLAIN as (
             )
             THEN unitsres
             ELSE 0 END) as fp_500_resunits
-    FROM dcp_pluto.:"VERSION" a
+    FROM dcp_mappluto a
     GROUP BY cd
     ORDER BY cd
 );
-\COPY FLOODPLAIN TO PSTDOUT DELIMITER ',' CSV HEADER;

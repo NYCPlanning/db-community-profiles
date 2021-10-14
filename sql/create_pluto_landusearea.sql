@@ -1,8 +1,9 @@
-CREATE TEMP TABLE PLUTO_landusearea_commpro as (
+DROP TABLE IF NOT EXISTS PLUTO_landusearea_commpro;
+CREATE TABLE PLUTO_landusearea_commpro as (
     WITH 
     sumareas as (
         SELECT cd, SUM(ST_Area(geom::geography::geography)) AS totallotarea
-        FROM dcp_pluto.:"VERSION"
+        FROM dcp_mappluto
         GROUP BY cd
     ),
     landusesums as (
@@ -21,7 +22,7 @@ CREATE TEMP TABLE PLUTO_landusearea_commpro as (
             SUM(ST_Area(geom::geography)) FILTER (WHERE landuse='11') AS "lot_area___vacant",
             SUM(ST_Area(geom::geography)) FILTER (WHERE landuse IS NULL) AS "lot_area___other_no_data",
             SUM(ST_Area(geom::geography)) AS "total_lot_area"
-        FROM dcp_pluto.:"VERSION"  
+        FROM dcp_mappluto  
         GROUP BY cd
     )
     SELECT 
@@ -54,5 +55,3 @@ CREATE TEMP TABLE PLUTO_landusearea_commpro as (
     FROM landusesums a, sumareas b
     WHERE a.cd = b.cd
 );
-
-\COPY PLUTO_landusearea_commpro TO PSTDOUT DELIMITER ',' CSV HEADER;

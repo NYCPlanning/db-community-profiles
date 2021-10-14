@@ -239,5 +239,3 @@ FROM JOIN_poverty;
 ALTER TABLE combined
 DROP COLUMN pop_acs_boro,
 DROP COLUMN pop_acs_nyc;
-
---\COPY combined TO PSTDOUT DELIMITER ',' CSV HEADER;

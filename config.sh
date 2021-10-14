@@ -42,13 +42,6 @@ function urlparse {
     BUILD_DB="$(echo $url | grep / | cut -d/ -f2-)"
 }
 
-# Pretty print messages
-function display {
-  echo -e "
-  \e[92m\e[1m$@\e[21m\e[0m
-  "
-}
-
 function CSV_export {
   psql $BUILD_ENGINE  -c "\COPY (
     SELECT * FROM $@

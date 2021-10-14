@@ -1,4 +1,5 @@
-CREATE TEMP TABLE PLUTO_landusecount as (
+DROP TABLE IF NOT EXISTS PLUTO_landusecount;
+CREATE TABLE PLUTO_landusecount as (
 SELECT   
     cd as borocd,
     COUNT(*) FILTER (WHERE landuse='01') AS lots_res_1_2_family_bldg,
@@ -14,13 +15,5 @@ SELECT
     COUNT(*) FILTER (WHERE landuse='11') AS lots_vacant,
     COUNT(*) FILTER (WHERE landuse IS NULL) AS lots_other_no_data,
     COUNT(*) AS lots_total
-FROM dcp_pluto.:"VERSION"
+FROM dcp_mappluto
 GROUP BY cd);
-
-\COPY PLUTO_landusecount TO PSTDOUT DELIMITER ',' CSV HEADER;
-
-do $$
-    begin
-        ASSERT (select count(*) from PLUTO_landusecount) = 72;
-    end;
-$$ LANGUAGE plpgsql;
